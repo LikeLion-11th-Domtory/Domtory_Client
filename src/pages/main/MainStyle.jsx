@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import MarQuee from 'react-fast-marquee';
 
 export const Container = styled.div`
     width: 100vw;
@@ -29,5 +30,60 @@ export const Notice = styled.div`
     padding-right: 10px;
 `
 export const NoticeDetail = styled.div`
+    flex-grow: 1;
+    width: 20px;
+    padding: 0px 10px 0px 10px;
+    margin-left: 10px;
+`
 
+export const MarqueeDetail = styled(MarQuee)`
+`
+
+export const MenuWrapper = styled.div`
+    padding: 20px;
+    `
+
+export const PushButtonWrapper = styled.div`
+    width: 100%;
+    padding: 10px 20px 10px 20px;
+    display: flex;
+    justify-content: center;
+`
+
+export const PushButton = styled.button`
+    width: 100%;
+    background-color: #13ca5c;
+    font-size: 17px;
+    border-radius: 16px;
+    padding: 15px;
+    border: none;
+`
+
+export const ViewButtonWrapper = styled.div`
+    width: 100%;
+    padding: 10px 20px 10px 20px;
+    display: flex;
+    justify-content: center;
+`
+
+export const ViewButton = styled.div`
+    width: 100%;
+    font-size: 17px;
+    border-radius: 16px;
+    display: flex;
+    justify-content: space-between;
+    padding-right: 20px;
+`
+
+export const ClassifyWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+`
+
+export const Classify = styled.div`
+    font-size: 18px;
+`
+export const Detail = styled.div`
+    font-size: 23px;
 `
