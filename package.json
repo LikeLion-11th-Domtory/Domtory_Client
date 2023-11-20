@@ -9,8 +9,13 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.19.0",
+<<<<<<< HEAD
+    "react-scripts": "5.0.1",
+    "styled-components": "^6.1.1",
+=======
     "react-scripts": "^5.0.1",
     "styled-component": "^2.8.0",
+>>>>>>> 1181368f3c7ac88dc5d173938511cadfa40453de
     "web-vitals": "^2.1.4",
     "workbox-background-sync": "^6.6.0",
     "workbox-broadcast-update": "^6.6.0",
