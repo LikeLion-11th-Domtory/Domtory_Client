@@ -7,10 +7,19 @@ import Marquee from 'react-fast-marquee';
 import DailyMenuBox from '../../components/dailymenubox';
 import treeimg from '../../assets/treeimage.png';
 import noticeimg from '../../assets/noticeimg.png';
+import handelAllowNotification from '../../components/PushAlert';
+import { useState } from 'react';
 
 export default function Main() {
+    const [deviceToken, setDeviceToken] = useState({
+        token: "",
+    });
     useSetScreenSize();
 
+    const onClickPush = () => {
+        handelAllowNotification();
+    }
+    
     return(
         <>
             <GlobalStyle/>
