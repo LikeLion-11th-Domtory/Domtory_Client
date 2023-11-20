@@ -1,0 +1,27 @@
+{
+    "short_name": "Domtory",
+    "name": "Domtory",
+    "icons": [
+      {
+        "src": "./logo/logo32.png",
+        "sizes": "64x64 32x32 24x24 16x16",
+        "type": "image/x-icon"
+      },
+      {
+        "src": "./logo/logo192.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      },
+      {
+        "src": "./logo/logo512.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+    ],
+    "start_url": "/",
+    "display": "standalone",
+    "description": "당신의 편안한 기숙사 생활을 도와주는 도토리",
+    "theme_color": "#000000",
+    "background_color": "#ffffff"
+  }
+  

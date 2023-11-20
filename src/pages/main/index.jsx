@@ -9,6 +9,7 @@ import treeimg from '../../assets/treeimage.png';
 import noticeimg from '../../assets/noticeimg.png';
 import handelAllowNotification from '../../components/PushAlert';
 import { useState } from 'react';
+import A2HS from '../../components/installprompt';
 
 export default function Main() {
     const [deviceToken, setDeviceToken] = useState({
@@ -31,7 +32,7 @@ export default function Main() {
                    <Styles.Notice>최근 공지사항</Styles.Notice> 
                    <Styles.NoticeDetail>
                         <Styles.MarqueeDetail>
-                            qwrqwrwjrqwruwqruiqwiurhuiwrqhui
+                            집 가고싶다
                         </Styles.MarqueeDetail>
                    </Styles.NoticeDetail>
                 </Styles.NoticeDetailWrapper>
@@ -40,7 +41,7 @@ export default function Main() {
                 <DailyMenuBox/>
               </Styles.MenuWrapper>
               <Styles.PushButtonWrapper>
-                <Styles.PushButton>🍙 푸쉬알림 허용하고 식단 정보 알림으로 받기 🍙</Styles.PushButton>
+                <Styles.PushButton>🍙 푸쉬알림 허용하고 식단 알림받기 🍙</Styles.PushButton>
               </Styles.PushButtonWrapper>
               <Styles.ViewButtonWrapper>
                 <Styles.ViewButton style={{backgroundColor:'#deab6e'}}>
@@ -60,6 +61,7 @@ export default function Main() {
                     <img src={noticeimg}/>
                 </Styles.ViewButton>
               </Styles.ViewButtonWrapper>
+              <A2HS/>
             </Styles.Container>
         </>
     );

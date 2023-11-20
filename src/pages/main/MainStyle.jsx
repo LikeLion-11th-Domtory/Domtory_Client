@@ -10,7 +10,7 @@ export const Container = styled.div`
 
 export const NoticeWrapper = styled.div`
     display: flex;
-    padding: 20px 20px 20px 10px;
+    padding: 20px 20px 0px 10px;
     gap: 15px;
     justify-content: center;
 `
@@ -40,12 +40,12 @@ export const MarqueeDetail = styled(MarQuee)`
 `
 
 export const MenuWrapper = styled.div`
-    padding: 20px;
+    padding: 20px 20px 5px 20px;
     `
 
 export const PushButtonWrapper = styled.div`
     width: 100%;
-    padding: 10px 20px 10px 20px;
+    padding: 10px 20px 5px 20px;
     display: flex;
     justify-content: center;
 `
@@ -61,7 +61,7 @@ export const PushButton = styled.button`
 
 export const ViewButtonWrapper = styled.div`
     width: 100%;
-    padding: 10px 20px 10px 20px;
+    padding: 10px 20px 5px 20px;
     display: flex;
     justify-content: center;
 `
@@ -72,7 +72,7 @@ export const ViewButton = styled.div`
     border-radius: 16px;
     display: flex;
     justify-content: space-between;
-    padding-right: 20px;
+    padding-right: 10px;
 `
 
 export const ClassifyWrapper = styled.div`
@@ -82,8 +82,8 @@ export const ClassifyWrapper = styled.div`
 `
 
 export const Classify = styled.div`
-    font-size: 18px;
+    font-size: 15px;
 `
 export const Detail = styled.div`
-    font-size: 23px;
+    font-size: 18px;
 `
