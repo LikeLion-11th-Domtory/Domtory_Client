@@ -1,6 +1,6 @@
 {
   "short_name": "Domtory",
-  "name": "당신의 편한 기숙사 생활",
+  "name": "Domtory",
   "icons": [
     {
       "src": "./logo/logo32.png",
@@ -18,8 +18,9 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": ".",
+  "start_url": "/",
   "display": "standalone",
+  "description": "당신의 편안한 기숙사 생활을 도와주는 도토리",
   "theme_color": "#000000",
   "background_color": "#ffffff"
 }
