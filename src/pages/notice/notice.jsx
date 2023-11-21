@@ -15,7 +15,7 @@ const Back = styled.img`
     padding: 0.4rem 0.3rem 0 0.3rem;
 `
 
-const Header = () => {
+export const Header = () => {
     return (
         <>
             <GlobalStyle />
