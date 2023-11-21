@@ -5,11 +5,16 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import Main from './pages/main';
+import Notice from './pages/notice/notice';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Main/>,
+  },
+  {
+    path: "/notice",
+    element: <Notice/>
   },
 ]);
 
