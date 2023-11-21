@@ -36,6 +36,7 @@ export default function Notice() {
         { id: 2, title: '제5대 충북학사 동서울관 자율회 회장단 선출 공고' },
         { id: 3, title: '2023년 충북학사 오픈데이' },
         { id: 4, title: '재난대비 모의훈련 실시' },
+        { id: 5, title: '택배보관실 운영시간 연장' },
     ];
 
     return (
