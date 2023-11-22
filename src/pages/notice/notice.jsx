@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSetScreenSize } from '../../setScreenHeight';
 
 import styled from "styled-components";
@@ -39,6 +39,7 @@ export const Header = () => {
 
 
 export default function Notice() {
+    const navigate = useNavigate();
     useSetScreenSize();
     const notices = [
         { id: 1, title: '빈대 발견시 대처방법' },
