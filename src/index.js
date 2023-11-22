@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import Main from './pages/main';
 import Notice from './pages/notice/notice';
+import Menu from './pages/menu/menu'
 
 const router = createBrowserRouter([
   {
@@ -14,7 +15,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/notice",
-    element: <Notice/>
+    element: <Notice/>,
+  },
+  {
+    path: "/menu",
+    element: <Menu/>,
   },
 ]);
 
