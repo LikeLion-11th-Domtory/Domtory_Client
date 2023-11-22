@@ -7,9 +7,9 @@ import * as HeaderStyles from '../../components/header/headerStyle';
 import GlobalStyle from '../../GlobalStyle';
 import logo from '../../assets/logo.png';
 import back from '../../assets/back.png';
-import mike from '../../assets/mike.png';
 import search from '../../assets/search.png';
 import { faBell, faBars } from '@fortawesome/free-solid-svg-icons';
+import NoticeBox from '../../components/noticebox'
 
 const Back = styled.img`
     padding: 0.4rem 0.3rem 0 0.3rem;
@@ -60,10 +60,7 @@ export default function Notice() {
 
                     {/* 목록 */}
                     {notices.map((notice) => (
-                        <Styles.Notice key={notice.id}>
-                            <img src={mike} />
-                            <span>{notice.title}</span>
-                        </Styles.Notice>
+                        <NoticeBox key={notice.id} notice={notice} />
                     ))}
                 </Styles.Wrapper >
             </Styles.Container >
