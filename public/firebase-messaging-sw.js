@@ -3,11 +3,11 @@ self.addEventListener("install", function (e) {
     self.skipWaiting();
   });
   
-  self.addEventListener("activate", function (e) {
+self.addEventListener("activate", function (e) {
     console.log("fcm sw activate..");
   });
   
-  self.addEventListener("push", function (e) {
+self.addEventListener("push", function (e) {
     console.log("push: ", e.data.json());
     if (!e.data.json()) return;
   

@@ -1,7 +1,7 @@
 
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import {getMessaging, getToken} from "firebase/messaging";
+import {getMessaging, getToken, onMessage} from "firebase/messaging";
 
 
 
@@ -20,7 +20,7 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const messaging = getMessaging(app);
 
-async function requestPermission() {
+async function requestPermission(setDeviceToken) {
   console.log("권한 요청 중...");
 
   const permission = await Notification.requestPermission();
@@ -30,13 +30,16 @@ async function requestPermission() {
   }
 
   console.log("알림 권한이 허용됨");
+  
 
   const token = await getToken(messaging, {
     vapidKey: process.env.REACT_APP_VAPID_KEY,
   });
 
-  if (token) console.log("token: ", token);
-  else console.log("Can not get Token");
+  if (token) {
+    console.log("token: ", token);
+    setDeviceToken({token});
+  } else console.log("Can not get Token");
 
   onMessage(messaging, (payload) => {
     console.log("메시지가 도착했습니다.", payload);
@@ -44,4 +47,4 @@ async function requestPermission() {
   });
 }
 
-requestPermission();
+export default requestPermission;

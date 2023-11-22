@@ -10,6 +10,7 @@ import noticeimg from '../../assets/noticeimg.png';
 import handelAllowNotification from '../../components/PushAlert';
 import { useState } from 'react';
 import A2HS from '../../components/installprompt';
+import requestPermission from '../../FirebaseConfig';
 
 export default function Main() {
     const [deviceToken, setDeviceToken] = useState({
@@ -18,7 +19,7 @@ export default function Main() {
     useSetScreenSize();
 
     const onClickPush = () => {
-        handelAllowNotification();
+        requestPermission(setDeviceToken);
     }
     
     return(
@@ -41,7 +42,7 @@ export default function Main() {
                 <DailyMenuBox/>
               </Styles.MenuWrapper>
               <Styles.PushButtonWrapper>
-                <Styles.PushButton>🍙 푸쉬알림 허용하고 식단 알림받기 🍙</Styles.PushButton>
+                <Styles.PushButton onClick={() => onClickPush()} style={{cursor:'pointer'}}>🍙 푸쉬알림 허용하고 식단 알림받기 🍙</Styles.PushButton>
               </Styles.PushButtonWrapper>
               <Styles.ViewButtonWrapper>
                 <Styles.ViewButton style={{backgroundColor:'#deab6e'}}>
