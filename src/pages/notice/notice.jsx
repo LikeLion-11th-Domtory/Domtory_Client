@@ -8,6 +8,7 @@ import * as HeaderStyles from '../../components/header/headerStyle';
 import GlobalStyle from '../../GlobalStyle';
 import { faBell, faBars } from '@fortawesome/free-solid-svg-icons';
 import NoticeBox from '../../components/noticebox'
+import Pagination from '@mui/material/Pagination';
 
 import logo from '../../assets/logo.png';
 import back from '../../assets/back.png';
