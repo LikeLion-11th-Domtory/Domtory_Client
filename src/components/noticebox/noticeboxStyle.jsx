@@ -4,7 +4,7 @@ export const Notice = styled.div`
     display: flex;
     align-items: center;
     width: 100%;
-    height: 5rem;
+    height: 4rem;
     border: 1px solid #a8a8a8;
     padding: 0.5rem 0.7rem;
     margin-bottom: 1rem;
@@ -15,6 +15,6 @@ export const Notice = styled.div`
         margin-right: 1rem;
     }
     span {
-        font-size: 1rem;
+        font-size: 0.85rem;
     }
 `

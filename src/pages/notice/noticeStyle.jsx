@@ -11,7 +11,8 @@ export const Wrapper = styled.div`
     padding: 0.5rem 1rem;
 
     p {
-        font-size: 1.5rem;
+        font-size: 1.2rem;
+        font-weight: 600;
         margin: 1rem 0;
         padding-left: 0.3rem;
     }
@@ -30,6 +31,7 @@ export const Input = styled.div`
         width: 85%;
         border: none;
         padding-left: 0.2rem;
+        font-size: 0.85rem;
     }
 
     input:focus {
