@@ -11,7 +11,7 @@ export const Wrapper = styled.div`
     padding: 0.5rem 1rem;
 
     p {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         font-weight: 600;
         margin: 1rem 0;
         padding-left: 0.3rem;
