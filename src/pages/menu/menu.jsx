@@ -56,10 +56,11 @@ export default function Menu() {
                         </Slider>
                     </Styles.Date>
 
-
-                    <p>오늘의 식사</p>
-                    {selectedDate && <p className='selected'>{selectedDate}</p>}
                     
+                        
+                        {selectedDate && <p className='selected'>{selectedDate}</p>}
+                    
+
                     {/* 메뉴 */}
                     {menuData.map((menu, index) => (
                         <Styles.MenuBox key={index} bgColor={menu.bgColor}>

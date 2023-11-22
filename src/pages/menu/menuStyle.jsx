@@ -8,24 +8,16 @@ export const Container = styled.div`
 `
 
 export const Wrapper = styled.div`
-    padding: 0.5rem 1rem;
-
-    p {
-        font-size: 1.5rem;
-        margin: 0.8rem 0.3rem;
-    }
+    padding: 0.8rem 1rem;
 
     .selected{
-        text-align: center;
-        width: 6rem;
-        height: 1.8rem;
-        color: #fff;
-        background: #F29500;
-        border-radius: 0.8rem;
-        font-size: 1rem;
-        padding-top: 0.15rem;
+        font-size: 0.9rem;
+        font-weight: 550;
+        margin: 1rem 0.5rem;
+        margin-bottom: 0.4rem;
     }
 `
+
 export const Date = styled.div`
     div{
         display: flex;
@@ -34,9 +26,9 @@ export const Date = styled.div`
     span{
         border: 1px solid #8a8a8a;
         border-radius: 0.3rem;
-        margin-right: 0.5rem;
+        margin: 0 0.25rem;
         padding: 0.15rem;
-        font-size: 0.8rem;
+        font-size: 0.7rem;
         text-align: center;
     }
 `
@@ -49,8 +41,9 @@ export const MenuBox = styled.div`
     border-radius: 1rem;
 
     .when {
-        font-size: 1.15rem;
-        margin: 0.3rem 0;
+        font-size: 16.5px;
+        font-weight: 550;
+        margin: 0.2rem 0;
     }
 
     div {
@@ -61,6 +54,6 @@ export const MenuBox = styled.div`
 
     p {
         margin: 0.1rem 0;
-        font-size: 0.8rem;
+        font-size: 15px;
     }
 `
