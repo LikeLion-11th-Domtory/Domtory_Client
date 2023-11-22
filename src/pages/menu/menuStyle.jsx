@@ -9,6 +9,36 @@ export const Container = styled.div`
 
 export const Wrapper = styled.div`
     padding: 0.5rem 1rem;
+
+    p {
+        font-size: 1.5rem;
+        margin: 0.8rem 0.3rem;
+    }
+
+    .selected{
+        text-align: center;
+        width: 6rem;
+        height: 1.8rem;
+        color: #fff;
+        background: #F29500;
+        border-radius: 0.8rem;
+        font-size: 1rem;
+        padding-top: 0.15rem;
+    }
+`
+export const Date = styled.div`
+    div{
+        display: flex;
+    }
+    
+    span{
+        border: 1px solid #8a8a8a;
+        border-radius: 0.3rem;
+        margin-right: 0.5rem;
+        padding: 0.15rem;
+        font-size: 0.8rem;
+        text-align: center;
+    }
 `
 
 export const MenuBox = styled.div`
