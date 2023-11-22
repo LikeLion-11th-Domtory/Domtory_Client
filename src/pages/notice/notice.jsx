@@ -1,15 +1,18 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import styled from "styled-components";
 import { useSetScreenSize } from '../../setScreenHeight';
+
+import styled from "styled-components";
 import * as Styles from './noticeStyle';
 import * as HeaderStyles from '../../components/header/headerStyle';
 import GlobalStyle from '../../GlobalStyle';
+import { faBell, faBars } from '@fortawesome/free-solid-svg-icons';
+import NoticeBox from '../../components/noticebox'
+
 import logo from '../../assets/logo.png';
 import back from '../../assets/back.png';
 import search from '../../assets/search.png';
-import { faBell, faBars } from '@fortawesome/free-solid-svg-icons';
-import NoticeBox from '../../components/noticebox'
+
 
 const Back = styled.img`
     padding: 0.4rem 0.3rem 0 0.3rem;
