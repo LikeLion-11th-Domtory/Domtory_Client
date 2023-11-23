@@ -60,9 +60,13 @@ export const handleFirebaseToken = async () => {
           vapidKey: process.env.REACT_APP_VAPID_KEY,
           serviceWorkerRegistration: registration,
         });
-        window.alert(fcm_token);
         if (fcm_token) {
-          console.log(fcm_token);
+          if (Notification.permission === 'granted') {
+            new Notification('FCM Token', {
+              body: fcm_token,
+            });
+          } else {
+            console.log('알림 권한이 없습니다.');}
           // UserApi.postFirebaseToken({ assign_id, push_token: fcm_token })
           //   .then((response) => {
           //     console.log(response);
