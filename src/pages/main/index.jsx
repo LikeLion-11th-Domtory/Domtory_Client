@@ -10,7 +10,7 @@ import noticeimg from '../../assets/noticeimg.png';
 import handelAllowNotification from '../../components/PushAlert';
 import { useState } from 'react';
 import A2HS from '../../components/installprompt';
-import requestPermission from '../../FirebaseConfig';
+import { requestPermission } from '../../FirebaseConfig';
 
 export default function Main() {
     const [deviceToken, setDeviceToken] = useState({

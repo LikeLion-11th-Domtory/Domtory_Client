@@ -1,7 +1,6 @@
 
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import {getMessaging, getToken, onMessage} from "firebase/messaging";
+import {getMessaging, getToken, onMessage, isSupported} from "firebase/messaging";
 
 
 
@@ -15,36 +14,128 @@ const firebaseConfig = {
   measurementId: process.env.REACT_APP_MEASUREMENT_ID
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const messaging = getMessaging(app);
-
-async function requestPermission(setDeviceToken) {
-  console.log("권한 요청 중...");
-
-  const permission = await Notification.requestPermission();
-  if (permission === "denied") {
-    console.log("알림 권한 허용 안됨");
-    return;
+export const app = initializeApp(firebaseConfig);
+export const messaging = (async () => {
+  try {
+    const isSupportedBrowser = await isSupported();
+    if (isSupportedBrowser) {
+      return getMessaging(app);
+    }
+    console.log("Firebase is not supported in this browser");
+    return null;
+  } catch (err) {
+    console.log(err);
+    return null;
   }
+})();
 
-  console.log("알림 권한이 허용됨");
+// Initialize Firebase
+export const getOrRegisterServiceWorker = () => {
+  if (
+    'serviceWorker' in navigator &&
+    typeof window.navigator.serviceWorker !== 'undefined'
+  ) {
+    return window.navigator.serviceWorker
+      .getRegistration()
+      .then(serviceWorker => {
+        if (serviceWorker) return serviceWorker;
+        return window.navigator.serviceWorker.register(
+          '/firebase-messaging-sw.js',
+        );
+      });
+  }
+  throw new Error('The browser doesn`t support service worker.');
+};
+
+// getFirebaseToken function generates the FCM token
+export const handleFirebaseToken = async (assign_id) => {
+  try {
+    // prevent racing problem and call initializeApp -> getMessaging-> getToken in sequences.
+    if (messaging) {
+      const registration = await getOrRegisterServiceWorker();
+      if (registration.active) {
+        const fcm_token = await getToken(messaging, {
+          vapidKey: process.env.REACT_APP_VAPID_KEY,
+          serviceWorkerRegistration: registration,
+        });
+        if (fcm_token && assign_id) {
+          alert(fcm_token);
+          // UserApi.postFirebaseToken({ assign_id, push_token: fcm_token })
+          //   .then((response) => {
+          //     console.log(response);
+          //   })
+          //   .catch((error) => console.error(error));
+          // set token on localStorage
+          localStorage.setItem('fcm_token', fcm_token);
+        }
+      }
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const handleGranted = (assign_id) => {
+  console.log('알림 권한이 허용됨');
+  handleFirebaseToken(assign_id).catch((error) => console.error(error));
+
+  onMessage(messaging, payload => {
+    console.log('메시지가 도착했습니다.', payload);
+  });
+};
+
+export const requestPermission = async (assign_id) => {
+  if (!('Notification' in window)) {
+    // Check if the browser supports notifications
+    console.log('This browser does not support desktop notification');
+  } else if (Notification.permission === 'default') {
+    console.log('권한 요청 중...');
+    const permission = await Notification.requestPermission();
+    if (permission === 'denied') {
+      console.log('알림 권한 허용 안됨');
+      alert('알림 권한을 허용해주세요!');
+      return;
+    } else {
+      handleGranted(assign_id);
+    }
+  }
+  handleGranted(assign_id);
+};
+
+
+// const handleGranted = (setDeviceToken) => {
+//   console.log('알림 권한이 허용됨');
   
+// }
 
-  const token = await getToken(messaging, {
-    vapidKey: process.env.REACT_APP_VAPID_KEY,
-  });
+// export const requestPermission = async(setDeviceToken) => {
+//   if (!('Notification' in window)) {
+//     // Check if the browser supports notifications
+//     console.log('This browser does not support desktop notification');
+//   } else if (Notification.permission === 'default') {
+//   console.log("권한 요청 중...");
 
-  if (token) {
-    console.log("token: ", token);
-    setDeviceToken({token});
-  } else console.log("Can not get Token");
+//   const permission = await Notification.requestPermission();
+//   if (permission === "denied") {
+//     console.log("알림 권한 허용 안됨");
+//     alert('알림 권한을 허용해주세요!');
+//     return;
+//   } else{
+//   console.log("알림 권한이 허용됨");
 
-  onMessage(messaging, (payload) => {
-    console.log("메시지가 도착했습니다.", payload);
-    // ...
-  });
-}
+//   }
 
-export default requestPermission;
+//   const token = await getToken(messaging, {
+//     vapidKey: process.env.REACT_APP_VAPID_KEY,
+//   });
+
+//   if (token) {
+//     console.log("token: ", token);
+//     setDeviceToken({token});
+//   } else console.log("Can not get Token");
+
+//   onMessage(messaging, (payload) => {
+//     console.log("메시지가 도착했습니다.", payload);
+//     // ...
+//   })};
+// }

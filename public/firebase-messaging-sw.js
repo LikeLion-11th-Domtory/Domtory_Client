@@ -19,9 +19,12 @@ self.addEventListener("push", function (e) {
       tag: resultData.tag,
       ...resultData,
     };
-    console.log("push: ", { resultData, notificationTitle, notificationOptions });
+    alert("push: ", { resultData, notificationTitle, notificationOptions });
   
-    self.registration.showNotification(notificationTitle, notificationOptions);
+    event.waitUntil(
+      self.registration.showNotification(
+         notificationTitle,
+         notificationOptions));
   });
   
   self.addEventListener("notificationclick", function (event) {
