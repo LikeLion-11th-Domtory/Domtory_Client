@@ -19,7 +19,6 @@ self.addEventListener("push", function (e) {
       tag: resultData.tag,
       ...resultData,
     };
-    alert("push: ", { resultData, notificationTitle, notificationOptions });
   
     event.waitUntil(
       self.registration.showNotification(

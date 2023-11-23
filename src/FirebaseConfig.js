@@ -47,19 +47,22 @@ export const getOrRegisterServiceWorker = () => {
   throw new Error('The browser doesn`t support service worker.');
 };
 
+
 // getFirebaseToken function generates the FCM token
-export const handleFirebaseToken = async (assign_id) => {
+export const handleFirebaseToken = async () => {
   try {
+    const messagingResolve = await messaging;
     // prevent racing problem and call initializeApp -> getMessaging-> getToken in sequences.
-    if (messaging) {
+    if (messagingResolve) {
       const registration = await getOrRegisterServiceWorker();
       if (registration.active) {
-        const fcm_token = await getToken(messaging, {
+        const fcm_token = await getToken(messagingResolve, {
           vapidKey: process.env.REACT_APP_VAPID_KEY,
           serviceWorkerRegistration: registration,
         });
-        if (fcm_token && assign_id) {
-          alert(fcm_token);
+        window.alert(fcm_token);
+        if (fcm_token) {
+          console.log(fcm_token);
           // UserApi.postFirebaseToken({ assign_id, push_token: fcm_token })
           //   .then((response) => {
           //     console.log(response);
@@ -75,16 +78,16 @@ export const handleFirebaseToken = async (assign_id) => {
   }
 };
 
-const handleGranted = (assign_id) => {
+const handleGranted = () => {
   console.log('알림 권한이 허용됨');
-  handleFirebaseToken(assign_id).catch((error) => console.error(error));
+  handleFirebaseToken().catch((error) => console.error(error));
 
   onMessage(messaging, payload => {
     console.log('메시지가 도착했습니다.', payload);
   });
 };
 
-export const requestPermission = async (assign_id) => {
+export const requestPermission = async () => {
   if (!('Notification' in window)) {
     // Check if the browser supports notifications
     console.log('This browser does not support desktop notification');
@@ -96,10 +99,10 @@ export const requestPermission = async (assign_id) => {
       alert('알림 권한을 허용해주세요!');
       return;
     } else {
-      handleGranted(assign_id);
+      handleGranted();
     }
   }
-  handleGranted(assign_id);
+  handleGranted();
 };
 
 
