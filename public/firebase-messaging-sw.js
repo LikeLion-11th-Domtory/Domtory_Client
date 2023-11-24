@@ -1,3 +1,4 @@
+
 self.addEventListener("install", function (e) {
     console.log("fcm sw install..");
     self.skipWaiting();
@@ -16,11 +17,9 @@ self.addEventListener("push", function (e) {
     const notificationOptions = {
       body: resultData.body,
       icon: resultData.image,
-      tag: resultData.tag,
-      ...resultData,
     };
   
-    event.waitUntil(
+    e.waitUntil(
       self.registration.showNotification(
          notificationTitle,
          notificationOptions));
