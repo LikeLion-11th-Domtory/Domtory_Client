@@ -7,6 +7,7 @@ import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import Main from './pages/main';
 import Notice from './pages/notice/notice';
 import Menu from './pages/menu/menu'
+import NoticeDetail from './pages/noticedetail/detail'
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
   {
     path: "/notice",
     element: <Notice/>,
+  },
+  {
+    path: '/notice_detail',
+    element: <NoticeDetail/>,
   },
   {
     path: "/menu",
