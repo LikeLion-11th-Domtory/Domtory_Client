@@ -61,8 +61,6 @@ export const handleFirebaseToken = async () => {
           serviceWorkerRegistration: registration,
         });
         if (fcm_token) {
-          alert(fcm_token);
-          console.log(fcm_token);
           // UserApi.postFirebaseToken({ assign_id, push_token: fcm_token })
           //   .then((response) => {
           //     console.log(response);
@@ -95,8 +93,7 @@ export const requestPermission = async () => {
     console.log('권한 요청 중...');
     const permission = await Notification.requestPermission();
     if (permission === 'denied') {
-      console.log('알림 권한 허용 안됨');
-      alert('알림 권한을 허용해주세요!');
+      alert(`알림 권한을 허용해주세요! \n 모바일 환경에서는 \'홈 화면에 추가하기\'를 통해서 설치하고, 알림을 받을 수 있습니다.`);
       return;
     } else {
       handleGranted();
