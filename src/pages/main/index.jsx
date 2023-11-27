@@ -11,8 +11,10 @@ import handelAllowNotification from '../../components/PushAlert';
 import { useState } from 'react';
 import A2HS from '../../components/installprompt';
 import { requestPermission } from '../../FirebaseConfig';
+import { useNavigate } from "react-router-dom";
 
 export default function Main() {
+    const navigate = useNavigate();
     const [deviceToken, setDeviceToken] = useState({
         token: "",
     });
@@ -20,6 +22,10 @@ export default function Main() {
 
     const onClickPush = () => {
         requestPermission(setDeviceToken);
+    }
+
+    const onClickNightOut = () => {
+      window.open('http://1.246.219.13:8080/cbhs/indexstdds.html?var1=M000004116','_blank');
     }
     
     return(
@@ -46,7 +52,7 @@ export default function Main() {
               </Styles.PushButtonWrapper>
               <Styles.ViewButtonWrapper>
                 <Styles.ViewButton style={{backgroundColor:'#deab6e'}}>
-                    <Styles.ClassifyWrapper>
+                    <Styles.ClassifyWrapper onClick={() => onClickNightOut()}>
                         <Styles.Classify>외박신청</Styles.Classify>
                         <Styles.Detail>오늘은 안 들어가요</Styles.Detail>
                     </Styles.ClassifyWrapper>
@@ -55,7 +61,7 @@ export default function Main() {
               </Styles.ViewButtonWrapper>
               <Styles.ViewButtonWrapper>
                 <Styles.ViewButton style={{backgroundColor:'#efaf48'}}>
-                    <Styles.ClassifyWrapper>
+                    <Styles.ClassifyWrapper onClick={() => navigate('/notice')}>
                         <Styles.Classify>공지사항</Styles.Classify>
                         <Styles.Detail>우리학사 소식 보기</Styles.Detail>
                     </Styles.ClassifyWrapper>

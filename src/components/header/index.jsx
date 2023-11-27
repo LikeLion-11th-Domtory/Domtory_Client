@@ -14,8 +14,8 @@ const Header = () => {
                 <Styles.Logo>Domtory</Styles.Logo>
             </Styles.LogoWrapper>
             <Styles.IconWrapper>
-                <Styles.Icon icon={faBell}/>
-                <Styles.Icon icon={faBars}/>
+                <Styles.Icon icon={faBell} onClick={() => alert('서비스 준비중입니다.')}/>
+                <Styles.Icon icon={faBars} onClick={() => alert('서비스 준비중입니다.')}/>
             </Styles.IconWrapper>
         </Styles.Container>
         </>
