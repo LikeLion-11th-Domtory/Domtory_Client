@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSetScreenSize } from '../../setScreenHeight';
+import axios from 'axios';
 
 import * as Styles from './menuStyle';
 import GlobalStyle from '../../GlobalStyle';
@@ -40,6 +41,28 @@ export default function Menu() {
         { when: '중식', items: ['모닝빵', '피자해쉬브라운', '삶은계란', '크래미샐러드', '수제피클'], bgColor: '#DEAB6E' },
         { when: '석식', items: ['모닝빵', '피자해쉬브라운', '삶은계란', '크래미샐러드', '수제피클'], bgColor: '#EFAF48' },
     ];
+
+    const [data, setData] = useState();
+
+    useEffect(() => {
+        axios.get("https://api.domtory.site/menu/231128/total/")
+            .then((response) => {
+                console.log(response.data)
+                // setData(response.data);
+            })
+            .catch((error) => {
+                if (error.response) {
+                    // 서버가 응답한 상태 코드가 2xx 범위를 벗어난 경우
+                    console.error('Server responded with a non-2xx status', error.response.data);
+                } else if (error.request) {
+                    // 요청은 보냈지만 응답을 받지 못한 경우
+                    console.error('No response received from the server', error.request);
+                } else {
+                    // 요청을 보내기 전에 발생한 오류
+                    console.error('Error before sending the request', error.message);
+                }
+            })
+    });
 
     return (
         <>
