@@ -40,7 +40,7 @@
     "workbox-streams": "^6.6.0"
   },
   "scripts": {
-    "start": "HTTPS=true SSL_CRT_FILE=./localhost+1.pem SSL_KEY_FILE=./localhost+1-key.pem react-scripts start",
+    "start": "set HTTPS=true&& set SSL_CRT_FILE=./localhost+1.pem&& set SSL_KEY_FILE=./localhost+1-key.pem&& react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -64,6 +64,7 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "cross-env": "^7.0.3"
   }
 }
