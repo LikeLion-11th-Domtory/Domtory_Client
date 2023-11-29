@@ -85,9 +85,9 @@ const handleGranted = () => {
   });
 };
 
-export const requestPermission = async () => {
+export const requestPermission = async (setIsPushModal) => {
   if (!('Notification' in window)) {
-    alert(`알림 권한을 허용해주세요! \n 모바일 환경에서는 \'홈 화면에 추가하기\'를 통해서 설치하고, 알림을 받을 수 있습니다.`);
+    setIsPushModal(true);
     // Check if the browser supports notifications
     console.log('This browser does not support desktop notification');
   } else if (Notification.permission === 'default') {

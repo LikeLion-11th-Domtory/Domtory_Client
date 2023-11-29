@@ -13,6 +13,7 @@ import A2HS from '../../components/installprompt';
 import { requestPermission } from '../../FirebaseConfig';
 import { redirect, useNavigate } from "react-router-dom";
 import axios from 'axios';
+import PushInformModal from '../../components/pushInformModal';
 
 export default function Main() {
     const navigate = useNavigate();
@@ -21,8 +22,9 @@ export default function Main() {
     });
     useSetScreenSize();
     const [isPushToken,setIsPushToken] = useState(false);
+    const [isPushModal,setIspushModal] = useState(false);
     const onClickPush = () => {
-        requestPermission(setDeviceToken);
+        requestPermission(setIspushModal);
     }
     // const apicall = async () => {
     //   try{
@@ -87,6 +89,7 @@ export default function Main() {
                 </Styles.ViewButton>
               </Styles.ViewButtonWrapper>
               <A2HS/>
+            <PushInformModal isPushModal={isPushModal} setIspushModal={setIspushModal}/>
             </Styles.Container>
         </>
     );
