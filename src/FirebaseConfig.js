@@ -1,7 +1,7 @@
 
 import { initializeApp } from "firebase/app";
 import {getMessaging, getToken, onMessage, isSupported} from "firebase/messaging";
-
+import UserApi from "./utils/api";
 
 
 const firebaseConfig = {
@@ -61,18 +61,17 @@ export const handleFirebaseToken = async () => {
           serviceWorkerRegistration: registration,
         });
         if (fcm_token) {
-          // UserApi.postFirebaseToken({ assign_id, push_token: fcm_token })
-          //   .then((response) => {
-          //     console.log(response);
-          //   })
-          //   .catch((error) => console.error(error));
-          // set token on localStorage
+          console.log(fcm_token);
+          UserApi.postFcmToken({ pushToken: fcm_token })
+            .then((response) => {
+              console.log(response);
+            })
+            .catch((error) => console.error(error));
           localStorage.setItem('fcm_token', fcm_token);
         }
       }
     }
   } catch (error) {
-    alert(`오류가 발생했습니다.`);
     console.error(error);
   }
 };
