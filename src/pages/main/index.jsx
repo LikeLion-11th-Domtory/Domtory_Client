@@ -22,7 +22,7 @@ export default function Main() {
     });
     useSetScreenSize();
     const [isPushToken,setIsPushToken] = useState(false);
-    const [isPushModal,setIspushModal] = useState(false);
+    const [isPushModal,setIspushModal] = useState(true);
     const onClickPush = () => {
         requestPermission(setIspushModal);
     }

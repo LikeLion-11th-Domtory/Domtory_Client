@@ -21,6 +21,7 @@ export const Title = styled.div`
     display: flex;
     justify-content: center;
     padding: 10px;
+    font-weight: 700;
 `
 
 export const InformImg = styled.img`
