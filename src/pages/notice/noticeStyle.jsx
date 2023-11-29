@@ -16,6 +16,11 @@ export const Wrapper = styled.div`
         margin: 1rem 0;
         padding-left: 0.3rem;
     }
+
+    a {
+        color: inherit;
+        text-decoration: none;
+    }
 `
 
 export const Input = styled.div`
