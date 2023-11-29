@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSetScreenSize } from '../../setScreenHeight';
+import axios from 'axios';
 
 import * as Styles from './menuStyle';
 import GlobalStyle from '../../GlobalStyle';
@@ -12,20 +13,6 @@ import 'slick-carousel/slick/slick-theme.css';
 export default function Menu() {
     useSetScreenSize();
 
-    const dateList = [
-        '11.19 (일)',
-        '11.20 (월)',
-        '11.21 (화)',
-        '11.22 (수)',
-        '11.23 (목)',
-        '11.24 (금)',
-        '11.25 (토)',
-    ];
-    const [selectedDate, setSelectedDate] = useState('11.19 (일)');
-    const handleDateClick = (date) => {
-        setSelectedDate(date);
-    };
-
     const settings = {
         dots: false,
         infinite: false,
@@ -35,11 +22,36 @@ export default function Menu() {
         initialSlide: 0,
     };
 
-    const menuData = [
-        { when: '조식', items: ['모닝빵', '피자해쉬브라운', '삶은계란', '크래미샐러드', '수제피클'], bgColor: '#EFD5B6' },
-        { when: '중식', items: ['모닝빵', '피자해쉬브라운', '삶은계란', '크래미샐러드', '수제피클'], bgColor: '#DEAB6E' },
-        { when: '석식', items: ['모닝빵', '피자해쉬브라운', '삶은계란', '크래미샐러드', '수제피클'], bgColor: '#EFAF48' },
-    ];
+    const [data, setData] = useState([]);
+    const [selectedDate, setSelectedDate] = useState(null);
+    const [selectedMenu, setSelectedMenu] = useState(null);
+
+    useEffect(() => {
+        axios.get('https://api.domtory.site/menu/')
+            .then((response) => {
+                setData(response.data);
+            })
+            .catch((error) => {
+                console.error('Error fetching menu data', error);
+            });
+    }, []);
+
+    const handleDateClick = (date) => {
+        setSelectedDate(date);
+
+        const selectedDay = data.find((day) => {
+            const dateDetail = day.date_detail;
+            const dateMatch = dateDetail.match(/(\d{2}\.\d{2}) \((\D{1,3})\)/);
+
+            if (dateMatch) {
+                const extractedDate = `${dateMatch[1]} (${dateMatch[2]})`;
+                return extractedDate === date;
+            }
+            return false;
+        });
+
+        setSelectedMenu(selectedDay);
+    };
 
     return (
         <>
@@ -49,30 +61,31 @@ export default function Menu() {
                 <Styles.Wrapper>
                     {/* 날짜 선택 */}
                     <Styles.Date>
-                        <Slider {...settings} style={{ opacity: 1, transform: 'translate3d(0px, 0px, 0px)' }}>
-                            {dateList.map((data, index) => (
-                                <span key={index} onClick={() => handleDateClick(data)}>{data}</span>
+                        <Slider {...settings}>
+                            {data.map((day, index) => (
+                                <span key={index} onClick={() => handleDateClick(day.date_detail)}>
+                                    {day.date_detail}
+                                </span>
                             ))}
                         </Slider>
                     </Styles.Date>
 
-                    
-                        
-                        {selectedDate && <p className='selected'>{selectedDate}</p>}
-                    
+                    {selectedDate && <p className="selected">{selectedDate}</p>}
 
                     {/* 메뉴 */}
-                    {menuData.map((menu, index) => (
-                        <Styles.MenuBox key={index} bgColor={menu.bgColor}>
-                            <p className='when'>{menu.when}</p>
-                            <div></div>
-                            {menu.items.map((item, itemIndex) => (
-                                <p key={itemIndex}>{item}</p>
-                            ))}
-                        </Styles.MenuBox>
+                    {['breakfast', 'lunch', 'dinner'].map((mealType) => (
+                        selectedMenu?.[`${mealType}_list`] && (
+                            <Styles.MenuBox key={mealType} bgColor={mealType === 'breakfast' ? '#EFD5B6' : mealType === 'lunch' ? '#DEAB6E' : '#EFAF48'}>
+                                <p className="when">{mealType === 'breakfast' ? '조식' : mealType === 'lunch' ? '중식' : '석식'}</p>
+                                <div></div>
+                                {selectedMenu[`${mealType}_list`].map((item, itemIndex) => (
+                                    <p key={itemIndex}>{item}</p>
+                                ))}
+                            </Styles.MenuBox>
+                        )
                     ))}
-                </Styles.Wrapper >
-            </Styles.Container >
+                </Styles.Wrapper>
+            </Styles.Container>
         </>
     );
-};
+}
