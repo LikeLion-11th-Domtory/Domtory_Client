@@ -8,10 +8,11 @@ import DailyMenuBox from '../../components/dailymenubox';
 import treeimg from '../../assets/treeimage.png';
 import noticeimg from '../../assets/noticeimg.png';
 import handelAllowNotification from '../../components/PushAlert';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import A2HS from '../../components/installprompt';
 import { requestPermission } from '../../FirebaseConfig';
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
+import axios from 'axios';
 
 export default function Main() {
     const navigate = useNavigate();
@@ -19,15 +20,28 @@ export default function Main() {
         token: "",
     });
     useSetScreenSize();
-
+    const [isPushToken,setIsPushToken] = useState(false);
     const onClickPush = () => {
         requestPermission(setDeviceToken);
     }
+    // const apicall = async () => {
+    //   try{
+    //     const menu = axios.get('https://api.domtory.site/menu/231128/total/');
+    //     console.log(menu.data);
+    //   } catch(error){
+    //     console.error(error);
+    //   }
+    // } 
 
+    // useEffect(() => {
+    //   apicall();
+    // },[])
     const onClickNightOut = () => {
       window.open('http://1.246.219.13:8080/cbhs/indexstdds.html?var1=M000004116','_blank');
     }
-    
+    useEffect(() => {
+      setIsPushToken(localStorage.getItem('fcm_token'));
+    },[])
     return(
         <>
             <GlobalStyle/>
@@ -48,20 +62,24 @@ export default function Main() {
                 <DailyMenuBox/>
               </Styles.MenuWrapper>
               <Styles.PushButtonWrapper>
-                <Styles.PushButton onClick={() => onClickPush()} style={{cursor:'pointer'}}>🍙 푸쉬알림 허용하고 식단 알림받기 🍙</Styles.PushButton>
+                {isPushToken ? 
+                  <Styles.PushButton style={{cursor:'pointer', backgroundColor: 'white', border: '1px solid black'}}>🙅‍♂️ 푸쉬알림 비활성화하기 🙅‍♂️</Styles.PushButton>
+                  :
+                  <Styles.PushButton onClick={() => onClickPush()} style={{cursor:'pointer'}}>🍙 푸쉬알림 허용하고 식단 알림받기 🍙</Styles.PushButton>
+                }
               </Styles.PushButtonWrapper>
-              <Styles.ViewButtonWrapper>
+              <Styles.ViewButtonWrapper onClick={() => onClickNightOut()}>
                 <Styles.ViewButton style={{backgroundColor:'#deab6e'}}>
-                    <Styles.ClassifyWrapper onClick={() => onClickNightOut()}>
+                    <Styles.ClassifyWrapper>
                         <Styles.Classify>외박신청</Styles.Classify>
                         <Styles.Detail>오늘은 안 들어가요</Styles.Detail>
                     </Styles.ClassifyWrapper>
                     <img src={treeimg}/>
                 </Styles.ViewButton>
               </Styles.ViewButtonWrapper>
-              <Styles.ViewButtonWrapper>
+              <Styles.ViewButtonWrapper onClick={() => navigate('/notice')}>
                 <Styles.ViewButton style={{backgroundColor:'#efaf48'}}>
-                    <Styles.ClassifyWrapper onClick={() => navigate('/notice')}>
+                    <Styles.ClassifyWrapper>
                         <Styles.Classify>공지사항</Styles.Classify>
                         <Styles.Detail>우리학사 소식 보기</Styles.Detail>
                     </Styles.ClassifyWrapper>
