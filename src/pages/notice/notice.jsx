@@ -110,17 +110,19 @@ export default function Notice() {
 
                     {displayedData.map((notice, index) => (
                         <Link key={notice.id} to={`/notice/${notice.id}`}>
-                            <NoticeBox notice={notice} index={index + 1}/>
+                            <NoticeBox notice={notice} index={index + 1} />
                         </Link>
                     ))}
 
                     {/* 페이지네이션 */}
-                    <Pagination
-                        count={totalPageCount}
-                        page={page}
-                        onChange={handleChangePage}
-                        style={{ marginTop: '1rem', marginLeft: '1rem' }}
-                    />
+                    <div>
+                        <Pagination
+                            count={totalPageCount}
+                            page={page}
+                            onChange={handleChangePage}
+                            style={{ marginTop: '1rem' }}
+                        />
+                    </div>
                 </Styles.Wrapper>
             </Styles.Container>
         </>

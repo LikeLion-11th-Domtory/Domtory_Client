@@ -56,8 +56,6 @@ export default function Menu() {
         setMenuData(selectedMenu);
     };
 
-    const [data, setData] = useState();
-
     useEffect(() => {
         axios.get("https://api.domtory.site/menu/231128/total/")
             .then((response) => {

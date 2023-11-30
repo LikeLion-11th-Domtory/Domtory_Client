@@ -23,6 +23,11 @@ export const Wrapper = styled.div`
         color: inherit;
         text-decoration: none;
     }
+
+    div {
+        display: flex;
+        justify-content: center;
+    }
 `
 
 export const Input = styled.div`
@@ -69,6 +74,6 @@ export const Text = styled.div`
 
     .date {
         margin-right: 0.5rem;
-        flex: 0.3;
+        flex: 0.27;
     }
 `
