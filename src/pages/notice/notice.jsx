@@ -102,9 +102,15 @@ export default function Notice() {
                     </Styles.Input>
 
                     {/* 목록 */}
-                    {displayedData.map((notice) => (
+                    <Styles.Text>
+                        <span className='num'>No.</span>
+                        <span>제목</span>
+                        <span className='date'>작성일</span>
+                    </Styles.Text>
+
+                    {displayedData.map((notice, index) => (
                         <Link key={notice.id} to={`/notice/${notice.id}`}>
-                            <NoticeBox notice={notice} />
+                            <NoticeBox notice={notice} index={index + 1}/>
                         </Link>
                     ))}
 
@@ -113,6 +119,7 @@ export default function Notice() {
                         count={totalPageCount}
                         page={page}
                         onChange={handleChangePage}
+                        style={{ marginTop: '1rem', marginLeft: '1rem' }}
                     />
                 </Styles.Wrapper>
             </Styles.Container>

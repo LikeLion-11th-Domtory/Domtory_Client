@@ -6,20 +6,28 @@ export const Notice = styled.div`
     justify-content: space-between;
     width: 100%;
     height: 2.8rem;
-    border: 1px solid #a8a8a8;
     padding: 0.5rem 0.7rem;
     padding-right: 0.1rem;
-    margin-bottom: 1rem;
-    
+
     .num {
+        flex: 0.07;
         font-weight: 600;
-        margin-right: 0.5rem;
-        flex: 0.3;
     }
 
     span {
-        font-size: 0.7rem;
-        margin-right: 0.5rem;
-        flex: 1;
+            font-size: 0.7rem;
+            margin-right: 0.5rem;
+            flex: 1;
+        }
+
+    .date {
+        font-weight: 600;
+        margin-right: 0.3rem;
+        flex: 0.35;
     }
+`
+
+export const Line = styled.div`
+    height: 1px;
+    background-color: #cfcfcf;    
 `

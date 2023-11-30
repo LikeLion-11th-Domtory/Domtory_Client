@@ -30,8 +30,9 @@ export default function Menu() {
 
     const today = new Date();
     const formattedDate = `${today.getFullYear().toString().slice(-2)}${(today.getMonth() + 1).toString().padStart(2, '0')}${today.getDate().toString().padStart(2, '0')}`;
-    const todayFormatted = `${today.getMonth() + 1}.${today.getDate()} (${getDayName(today.getDay())})`;
+    const todayFormatted = `${(today.getMonth() + 1).toString().padStart(2, '0')}.${today.getDate().toString().padStart(2, '0')} (${getDayName(today.getDay())})`;
 
+    console.log(todayFormatted);
     const [selectedDate, setSelectedDate] = useState(todayFormatted);
     const [data, setData] = useState([]);
     const [menuData, setMenuData] = useState([]);
