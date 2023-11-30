@@ -3,7 +3,7 @@ import * as Styles from './noticeboxStyle'
 
 const NoticeBox = ({ notice }) => (
     <Styles.Notice key={notice.id}>
-        <img src={mike} alt="mike" />
+        <span className='num'>{notice.id}</span>
         <span>{notice.title}</span>
     </Styles.Notice>
 );

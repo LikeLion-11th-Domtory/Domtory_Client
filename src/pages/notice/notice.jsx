@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useSetScreenSize } from '../../setScreenHeight';
 import axios from 'axios';
 
@@ -41,18 +41,9 @@ export const Header = () => {
 
 
 export default function Notice() {
-    const navigate = useNavigate();
     useSetScreenSize();
 
-    const notices = [
-        { id: 1, title: '빈대 발견시 대처방법' },
-        { id: 2, title: '제5대 충북학사 동서울관 자율회 회장단 선출 공고' },
-        { id: 3, title: '2023년 충북학사 오픈데이' },
-        { id: 4, title: '재난대비 모의훈련 실시' },
-        { id: 5, title: '택배보관실 운영시간 연장' },
-    ];
-
-    const [data, setData] = useState();
+    const [data, setData] = useState([]);
     useEffect(() => {
         axios.get('https://api.domtory.site/notice/')
             .then((response) => {
@@ -72,12 +63,12 @@ export default function Notice() {
                     <p>공지사항</p>
                     {/* 검색 */}
                     <Styles.Input>
-                        <img src={search} />
+                        <img src={search} alt="search icon" />
                         <input type="text" />
                     </Styles.Input>
 
                     {/* 목록 */}
-                    {notices.map((notice) => (
+                    {data.map((notice) => (
                         <Link key={notice.id} to={`/detail/${notice.id}`}>
                             <NoticeBox notice={notice} />
                         </Link>

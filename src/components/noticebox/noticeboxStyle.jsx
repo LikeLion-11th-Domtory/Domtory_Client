@@ -9,9 +9,8 @@ export const Notice = styled.div`
     padding: 0.5rem 0.7rem;
     margin-bottom: 1rem;
     
-    img {
-        width: 0.7rem;
-        height: 1.1rem;
+    .num {
+        font-weight: 600;
         margin-right: 1rem;
     }
     span {
