@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSetScreenSize } from '../../setScreenHeight';
+import axios from 'axios';
 
 import * as Styles from './menuStyle';
 import GlobalStyle from '../../GlobalStyle';
@@ -12,20 +13,6 @@ import 'slick-carousel/slick/slick-theme.css';
 export default function Menu() {
     useSetScreenSize();
 
-    const dateList = [
-        '11.19 (일)',
-        '11.20 (월)',
-        '11.21 (화)',
-        '11.22 (수)',
-        '11.23 (목)',
-        '11.24 (금)',
-        '11.25 (토)',
-    ];
-    const [selectedDate, setSelectedDate] = useState('11.19 (일)');
-    const handleDateClick = (date) => {
-        setSelectedDate(date);
-    };
-
     const settings = {
         dots: false,
         infinite: false,
@@ -35,11 +22,39 @@ export default function Menu() {
         initialSlide: 0,
     };
 
-    const menuData = [
-        { when: '조식', items: ['모닝빵', '피자해쉬브라운', '삶은계란', '크래미샐러드', '수제피클'], bgColor: '#EFD5B6' },
-        { when: '중식', items: ['모닝빵', '피자해쉬브라운', '삶은계란', '크래미샐러드', '수제피클'], bgColor: '#DEAB6E' },
-        { when: '석식', items: ['모닝빵', '피자해쉬브라운', '삶은계란', '크래미샐러드', '수제피클'], bgColor: '#EFAF48' },
-    ];
+    // 오늘 날짜를 기본값으로
+    function getDayName(day) {
+        const days = ['일', '월', '화', '수', '목', '금', '토'];
+        return days[day];
+    }
+    const today = new Date();
+    const todayFormatted = `${today.getMonth() + 1}.${today.getDate()} (${getDayName(today.getDay())})`;
+    const [selectedDate, setSelectedDate] = useState(todayFormatted);
+
+    const handleDateClick = (date) => {
+        setSelectedDate(date);
+
+        const selectedMenu = data.find((day) => day.date_detail.slice(3) === date);
+        setMenuData(selectedMenu);
+    };
+
+    const [data, setData] = useState([]);
+    const [menuData, setMenuData] = useState([]);
+
+    useEffect(() => {
+        axios.get('https://api.domtory.site/menu/231130/total/')
+            .then((response) => {
+                console.log(response.data);
+                setData(response.data);
+                if (response.data.length > 0) {
+                    setSelectedDate(response.data[0].date_detail.slice(3));
+                    setMenuData(response.data[0]);
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, []);
 
     return (
         <>
@@ -49,28 +64,53 @@ export default function Menu() {
                 <Styles.Wrapper>
                     {/* 날짜 선택 */}
                     <Styles.Date>
-                        <Slider {...settings} style={{ opacity: 1, transform: 'translate3d(0px, 0px, 0px)' }}>
-                            {dateList.map((data, index) => (
-                                <span key={index} onClick={() => handleDateClick(data)}>{data}</span>
-                            ))}
-                        </Slider>
+                        {data.length > 0 && (
+                            <Slider {...settings} style={{ opacity: 1, transform: 'translate3d(0px, 0px, 0px)' }}>
+                                {data.map((day, index) => (
+                                    <span key={index} onClick={() => handleDateClick(day.date_detail.slice(3))}>
+                                        {day.date_detail.slice(3)}
+                                    </span>
+                                ))}
+                            </Slider>
+                        )}
                     </Styles.Date>
 
-                    
-                        
-                        {selectedDate && <p className='selected'>{selectedDate}</p>}
-                    
+                    {selectedDate && <p className='selected'>{selectedDate}</p>}
 
                     {/* 메뉴 */}
-                    {menuData.map((menu, index) => (
-                        <Styles.MenuBox key={index} bgColor={menu.bgColor}>
-                            <p className='when'>{menu.when}</p>
-                            <div></div>
-                            {menu.items.map((item, itemIndex) => (
-                                <p key={itemIndex}>{item}</p>
-                            ))}
-                        </Styles.MenuBox>
-                    ))}
+                    {menuData && (
+                        <>
+                            {menuData.breakfast_list && (
+                                <Styles.MenuBox key="breakfast" bgColor="#EFD5B6">
+                                    <p className="when">조식</p>
+                                    <div></div>
+                                    {menuData.breakfast_list.map((item, index) => (
+                                        <p key={index}>{item}</p>
+                                    ))}
+                                </Styles.MenuBox>
+                            )}
+
+                            {menuData.lunch_list && (
+                                <Styles.MenuBox key="lunch" bgColor="#DEAB6E">
+                                    <p className="when">중식</p>
+                                    <div></div>
+                                    {menuData.lunch_list.map((item, index) => (
+                                        <p key={index}>{item}</p>
+                                    ))}
+                                </Styles.MenuBox>
+                            )}
+
+                            {menuData.dinner_list && (
+                                <Styles.MenuBox key="dinner" bgColor="#EFAF48">
+                                    <p className="when">석식</p>
+                                    <div></div>
+                                    {menuData.dinner_list.map((item, index) => (
+                                        <p key={index}>{item}</p>
+                                    ))}
+                                </Styles.MenuBox>
+                            )}
+                        </>
+                    )}
                 </Styles.Wrapper >
             </Styles.Container >
         </>
