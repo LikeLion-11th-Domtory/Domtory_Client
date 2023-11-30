@@ -45,6 +45,7 @@ export default function Notice() {
     const [data, setData] = useState([]);
     const [searchKeyword, setSearchKeyword] = useState('');
     const [filteredData, setFilteredData] = useState([]);
+    const [sortedData, setSortedData] = useState([]);
     const [page, setPage] = useState(1);
     const itemsPerPage = 10;
 
@@ -68,6 +69,12 @@ export default function Notice() {
         setPage(1);
     }, [searchKeyword, data]);
 
+    // 날짜 기준으로 내림차순 정렬
+    useEffect(() => {
+        const sorted = [...filteredData].sort((a, b) => new Date(b.date) - new Date(a.date));
+        setSortedData(sorted);
+    }, [filteredData]);
+
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -75,7 +82,7 @@ export default function Notice() {
     const totalPageCount = Math.ceil(filteredData.length / itemsPerPage);
     const startIndex = (page - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    const displayedData = filteredData.slice(startIndex, endIndex);
+    const displayedData = sortedData.slice(startIndex, endIndex);
 
     const handleSearchChange = (e) => {
         setSearchKeyword(e.target.value);
