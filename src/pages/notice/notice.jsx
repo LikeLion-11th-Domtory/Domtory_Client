@@ -103,7 +103,7 @@ export default function Notice() {
 
                     {/* 목록 */}
                     {displayedData.map((notice) => (
-                        <Link key={notice.id} to={`/detail/${notice.id}`}>
+                        <Link key={notice.id} to={`/notice/${notice.id}`}>
                             <NoticeBox notice={notice} />
                         </Link>
                     ))}
