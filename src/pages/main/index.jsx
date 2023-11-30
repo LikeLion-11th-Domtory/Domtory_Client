@@ -14,6 +14,7 @@ import { requestPermission } from '../../FirebaseConfig';
 import { redirect, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import PushInformModal from '../../components/pushInformModal';
+import UserApi from '../../utils/api';
 
 export default function Main() {
     const navigate = useNavigate();
@@ -22,27 +23,27 @@ export default function Main() {
     });
     useSetScreenSize();
     const [isPushToken,setIsPushToken] = useState(false);
-    const [isPushModal,setIspushModal] = useState(true);
+    const [isPushModal,setIspushModal] = useState(false);
+    const [noticeList, setNoticeList] = useState([]);
     const onClickPush = () => {
         requestPermission(setIspushModal);
     }
-    // const apicall = async () => {
-    //   try{
-    //     const menu = axios.get('https://api.domtory.site/menu/231128/total/');
-    //     console.log(menu.data);
-    //   } catch(error){
-    //     console.error(error);
-    //   }
-    // } 
+    const getNoticeList = async () => {
+      try{
+        const response = await UserApi.getNotice();
+        setNoticeList(response.data.slice(-3));
+      } catch(error){
+        console.error(error);
+      }
+    } 
 
-    // useEffect(() => {
-    //   apicall();
-    // },[])
+
     const onClickNightOut = () => {
       window.open('http://1.246.219.13:8080/cbhs/indexstdds.html?var1=M000004116','_blank');
     }
     useEffect(() => {
       setIsPushToken(localStorage.getItem('fcm_token'));
+      getNoticeList();
     },[])
     return(
         <>
@@ -51,11 +52,13 @@ export default function Main() {
               <Header/>
               <Styles.NoticeWrapper>
                 <img src={logo} style={{width: '2rem'}}/>
-                <Styles.NoticeDetailWrapper>
+                <Styles.NoticeDetailWrapper onClick={() => navigate('/notice')}>
                    <Styles.Notice>최근 공지사항</Styles.Notice> 
                    <Styles.NoticeDetail>
                         <Styles.MarqueeDetail>
-                            집 가고싶다
+                          {noticeList.map((notice) => (
+                            <Styles.RecentNotice>{notice.title}</Styles.RecentNotice>
+                          ))}
                         </Styles.MarqueeDetail>
                    </Styles.NoticeDetail>
                 </Styles.NoticeDetailWrapper>

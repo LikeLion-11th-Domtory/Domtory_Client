@@ -39,6 +39,10 @@ export const NoticeDetail = styled.div`
 export const MarqueeDetail = styled(MarQuee)`
 `
 
+export const RecentNotice = styled.div`
+    margin-right: 100px;
+    `
+
 export const MenuWrapper = styled.div`
     padding: 20px 20px 5px 20px;
     `
