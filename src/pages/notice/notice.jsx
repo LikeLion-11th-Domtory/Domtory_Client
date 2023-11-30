@@ -43,6 +43,11 @@ export default function Notice() {
     useSetScreenSize();
 
     const [data, setData] = useState([]);
+    const [searchKeyword, setSearchKeyword] = useState('');
+    const [filteredData, setFilteredData] = useState([]);
+    const [page, setPage] = useState(1);
+    const itemsPerPage = 10;
+
     useEffect(() => {
         axios
             .get('https://api.domtory.site/notice/')
@@ -54,17 +59,27 @@ export default function Notice() {
             });
     }, []);
 
+    useEffect(() => {
+        // 검색어가 변경될 때마다 데이터 필터링
+        const filtered = data.filter((notice) =>
+            notice.title.toLowerCase().includes(searchKeyword.toLowerCase())
+        );
+        setFilteredData(filtered);
+        setPage(1);
+    }, [searchKeyword, data]);
+
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
 
-    const itemsPerPage = 10; // 한 페이지에 표시할 항목 수
-    const [page, setPage] = useState(1);
-    const totalPageCount = Math.ceil(data.length / itemsPerPage);
-
+    const totalPageCount = Math.ceil(filteredData.length / itemsPerPage);
     const startIndex = (page - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    const displayedData = data.slice(startIndex, endIndex);
+    const displayedData = filteredData.slice(startIndex, endIndex);
+
+    const handleSearchChange = (e) => {
+        setSearchKeyword(e.target.value);
+    };
 
     return (
         <>
@@ -76,7 +91,7 @@ export default function Notice() {
                     {/* 검색 */}
                     <Styles.Input>
                         <img src={search} alt="search icon" />
-                        <input type="text" />
+                        <input type="text" value={searchKeyword} onChange={handleSearchChange} />
                     </Styles.Input>
 
                     {/* 목록 */}

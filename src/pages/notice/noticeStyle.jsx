@@ -9,6 +9,7 @@ export const Container = styled.div`
 
 export const Wrapper = styled.div`
     padding: 0.5rem 1rem;
+    padding-bottom: 1.5rem;
 
     p {
         font-size: 1.1rem;
