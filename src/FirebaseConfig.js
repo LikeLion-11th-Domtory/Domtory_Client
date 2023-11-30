@@ -69,13 +69,18 @@ export const handleFirebaseToken = async () => {
           UserApi.postFcmToken({ pushToken: fcm_token })
             .then((response) => {
               console.log(response);
+              alert('알림이 설정되었습니다.')
             })
-            .catch((error) => console.error(error));
+            .catch((error) => {
+              alert('알림 설정 중 에러가 발생했습니다. 다시 시도해 주세요.');
+              console.error(error);
+            });
           localStorage.setItem('fcm_token', fcm_token);
         }
       }
     }
   } catch (error) {
+    alert('알림 설정 중 에러가 발생했습니다. 다시 시도해 주세요.');
     console.error(error);
   }
 };
