@@ -22,36 +22,39 @@ export default function Menu() {
         initialSlide: 0,
     };
 
-    const [data, setData] = useState([]);
-    const [selectedDate, setSelectedDate] = useState(null);
-    const [selectedMenu, setSelectedMenu] = useState(null);
-
-    useEffect(() => {
-        axios.get('https://api.domtory.site/menu/')
-            .then((response) => {
-                setData(response.data);
-            })
-            .catch((error) => {
-                console.error('Error fetching menu data', error);
-            });
-    }, []);
+    // 오늘 날짜를 기본값으로
+    function getDayName(day) {
+        const days = ['일', '월', '화', '수', '목', '금', '토'];
+        return days[day];
+    }
+    const today = new Date();
+    const todayFormatted = `${today.getMonth() + 1}.${today.getDate()} (${getDayName(today.getDay())})`;
+    const [selectedDate, setSelectedDate] = useState(todayFormatted);
 
     const handleDateClick = (date) => {
         setSelectedDate(date);
 
-        const selectedDay = data.find((day) => {
-            const dateDetail = day.date_detail;
-            const dateMatch = dateDetail.match(/(\d{2}\.\d{2}) \((\D{1,3})\)/);
-
-            if (dateMatch) {
-                const extractedDate = `${dateMatch[1]} (${dateMatch[2]})`;
-                return extractedDate === date;
-            }
-            return false;
-        });
-
-        setSelectedMenu(selectedDay);
+        const selectedMenu = data.find((day) => day.date_detail.slice(3) === date);
+        setMenuData(selectedMenu);
     };
+
+    const [data, setData] = useState([]);
+    const [menuData, setMenuData] = useState([]);
+
+    useEffect(() => {
+        axios.get('https://api.domtory.site/menu/231130/total/')
+            .then((response) => {
+                console.log(response.data);
+                setData(response.data);
+                if (response.data.length > 0) {
+                    setSelectedDate(response.data[0].date_detail.slice(3));
+                    setMenuData(response.data[0]);
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, []);
 
     return (
         <>
@@ -61,31 +64,55 @@ export default function Menu() {
                 <Styles.Wrapper>
                     {/* 날짜 선택 */}
                     <Styles.Date>
-                        <Slider {...settings}>
-                            {data.map((day, index) => (
-                                <span key={index} onClick={() => handleDateClick(day.date_detail)}>
-                                    {day.date_detail}
-                                </span>
-                            ))}
-                        </Slider>
+                        {data.length > 0 && (
+                            <Slider {...settings} style={{ opacity: 1, transform: 'translate3d(0px, 0px, 0px)' }}>
+                                {data.map((day, index) => (
+                                    <span key={index} onClick={() => handleDateClick(day.date_detail.slice(3))}>
+                                        {day.date_detail.slice(3)}
+                                    </span>
+                                ))}
+                            </Slider>
+                        )}
                     </Styles.Date>
 
-                    {selectedDate && <p className="selected">{selectedDate}</p>}
+                    {selectedDate && <p className='selected'>{selectedDate}</p>}
 
                     {/* 메뉴 */}
-                    {['breakfast', 'lunch', 'dinner'].map((mealType) => (
-                        selectedMenu?.[`${mealType}_list`] && (
-                            <Styles.MenuBox key={mealType} bgColor={mealType === 'breakfast' ? '#EFD5B6' : mealType === 'lunch' ? '#DEAB6E' : '#EFAF48'}>
-                                <p className="when">{mealType === 'breakfast' ? '조식' : mealType === 'lunch' ? '중식' : '석식'}</p>
-                                <div></div>
-                                {selectedMenu[`${mealType}_list`].map((item, itemIndex) => (
-                                    <p key={itemIndex}>{item}</p>
-                                ))}
-                            </Styles.MenuBox>
-                        )
-                    ))}
-                </Styles.Wrapper>
-            </Styles.Container>
+                    {menuData && (
+                        <>
+                            {menuData.breakfast_list && (
+                                <Styles.MenuBox key="breakfast" bgColor="#EFD5B6">
+                                    <p className="when">조식</p>
+                                    <div></div>
+                                    {menuData.breakfast_list.map((item, index) => (
+                                        <p key={index}>{item}</p>
+                                    ))}
+                                </Styles.MenuBox>
+                            )}
+
+                            {menuData.lunch_list && (
+                                <Styles.MenuBox key="lunch" bgColor="#DEAB6E">
+                                    <p className="when">중식</p>
+                                    <div></div>
+                                    {menuData.lunch_list.map((item, index) => (
+                                        <p key={index}>{item}</p>
+                                    ))}
+                                </Styles.MenuBox>
+                            )}
+
+                            {menuData.dinner_list && (
+                                <Styles.MenuBox key="dinner" bgColor="#EFAF48">
+                                    <p className="when">석식</p>
+                                    <div></div>
+                                    {menuData.dinner_list.map((item, index) => (
+                                        <p key={index}>{item}</p>
+                                    ))}
+                                </Styles.MenuBox>
+                            )}
+                        </>
+                    )}
+                </Styles.Wrapper >
+            </Styles.Container >
         </>
     );
-}
+};
