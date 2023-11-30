@@ -53,11 +53,10 @@ export const getOrRegisterServiceWorker = () => {
 export const handleFirebaseToken = async () => {
   try {
     const messagingResolve = await messaging;
+    console.log(messagingResolve);
     // prevent racing problem and call initializeApp -> getMessaging-> getToken in sequences.
     if (messagingResolve) {
       const registration = await getOrRegisterServiceWorker();
-      console.log(messagingResolve);
-      console.log(process.env.REACT_APP_VAPID_KEY);
       console.log(registration);
       if (registration.active) {
         const fcm_token = await getToken(messagingResolve, {
@@ -69,7 +68,7 @@ export const handleFirebaseToken = async () => {
           UserApi.postFcmToken({ pushToken: fcm_token })
             .then((response) => {
               console.log(response);
-              alert('알림이 설정되었습니다.')
+              alert('알림이 설정되었습니다.');
             })
             .catch((error) => {
               alert('알림 설정 중 에러가 발생했습니다. 다시 시도해 주세요.');
