@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSetScreenSize } from '../../setScreenHeight';
@@ -15,7 +16,7 @@ export default function Detail() {
     const [img, setImg] = useState(null);
 
     useEffect(() => {
-        axios.get(`https://api.domtory.site/notice_detail/${noticeId}`)
+        axios.get(`https://api.domtory.site/notice/${noticeId}`)
             .then((response) => {
                 setData(response.data);
                 setImg(response.data.images);
@@ -55,7 +56,12 @@ export default function Detail() {
                             <div>{data.title}</div>
                             <p>{data.data}</p>
                             {imgElement && <img src={imgElement.src} alt="" />}
-                            <p>{data.content}</p>
+                            <p>{data.content && data.content.split('\n').map((line, index) => (
+                                <React.Fragment key={index}>
+                                    {line}
+                                    <br />
+                                </React.Fragment>
+                            ))}</p>
                         </Styles.Content>
                     )}
                 </Styles.Wrapper>
