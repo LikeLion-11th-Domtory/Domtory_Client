@@ -5,6 +5,8 @@
 /.pnp
 .pnp.js
 .env
+.localhost+1.pem
+.localhost+1-key.pem
 # testing
 /coverage
 

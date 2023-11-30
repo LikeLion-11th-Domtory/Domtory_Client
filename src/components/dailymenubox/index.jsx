@@ -1,37 +1,79 @@
+import React, { useState, useEffect } from 'react';
 import GlobalStyle from '../../GlobalStyle';
 import * as Styles from './menuStyle';
+import UserApi from '../../utils/api';
+import { useNavigate } from 'react-router-dom';
 
 const DailyMenuBox = () => {
-    let today = new Date();
-    const week = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
-    let dayOfWeek = week[today.getDay()];
-    let hour = today.getHours();
-    let daydiv;
-    if(hour < 9 || hour >= 21){
-        daydiv = '아침';
-    } else if (hour >= 9 || hour <= 13){
-        daydiv = '점심';
-    } else{
-        daydiv = '저녁';
+    const [menuList, setMenuList] = useState([]);
+    const [daydiv, setDayDiv] = useState('');
+    const [formatedDate, setFormatedDate] = useState('');
+    const navigate = useNavigate();
+
+    const onClickMenu = () => {
+        navigate('/menu');
     }
-    const formatedDate = `${today.getMonth()+1}.${today.getDate()}(${dayOfWeek})`
-    return(
+    useEffect(() => {
+        const today = new Date();
+        const week = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+        const dayOfWeek = week[today.getDay()];
+        const hour = today.getHours();
+        let dayDivForApi;
+        
+        const formatedDate = `${today.getMonth() + 1}.${today.getDate()}(${dayOfWeek})`;
+        if (hour < 9 || hour >= 0) {
+            setDayDiv('아침');
+            dayDivForApi = 'breakfast';
+            setFormatedDate(formatedDate);
+        } else if (hour >= 9 || hour <= 13) {
+            setDayDiv('점심');
+            dayDivForApi = 'lunch';
+            setFormatedDate(formatedDate);
+        } else if (hour >= 13 || hour <= 21){
+            setDayDiv('저녁');
+            dayDivForApi = 'dinner';
+            setFormatedDate(formatedDate);
+        } else if (hour >= 22 || hour <= 24){
+            setDayDiv('아침');
+            const nextDay = `${today.getMonth() + 1}.${today.getDate()+1}(${dayOfWeek})`
+            setFormatedDate(nextDay);
+        }
+
+
+        const formatedDateForApi = `${today.getFullYear().toString().slice(-2)}${String(today.getMonth() + 1).padStart(2, '0')}${String(today.getDate()).padStart(2, '0')}`;
+
+        const getmenuData = async () => {
+            try {
+                const menuData = await UserApi.getTodayMenu(formatedDateForApi, dayDivForApi);
+                if (hour < 9 || hour >= 21) {
+                    setMenuList(menuData[0].breakfast_list);
+                } else if (hour >= 9 || hour <= 13) {
+                    setMenuList(menuData[0].lunch_list);
+                } else {
+                    setMenuList(menuData[0].dinner_list);
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        getmenuData();
+    }, []);
+
+    return (
         <>
-        <GlobalStyle/>
-        <Styles.Container>
-            <Styles.Day>{formatedDate}</Styles.Day>
-            <Styles.DayDiv>{daydiv}</Styles.DayDiv>
-            <Styles.Menu>
-                <div style={{fontSize: '17px'}}>잡곡밥</div>
-                <div style={{fontSize: '17px'}}>우렁된장찌개</div>
-                <div style={{fontSize: '17px'}}>제육볶음</div>
-                <div style={{fontSize: '17px'}}>어묵콩나물볶음</div>
-                <div style={{fontSize: '17px'}}>오이부추무침</div>
-                <div style={{fontSize: '17px'}}>배추김치</div>
-            </Styles.Menu>
-        </Styles.Container>
+            <GlobalStyle />
+            <Styles.Container onClick={() => onClickMenu()}>
+                <Styles.Day>{formatedDate}</Styles.Day>
+                <Styles.DayDiv>{daydiv}</Styles.DayDiv>
+                <Styles.Menu>
+                    {menuList.map((menu, index) => (
+                        <div key={index}>{menu}</div>
+                    ))}
+                </Styles.Menu>
+            </Styles.Container>
         </>
-    )
-}
+    );
+};
 
 export default DailyMenuBox;
