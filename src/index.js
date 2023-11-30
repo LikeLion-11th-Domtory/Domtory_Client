@@ -19,7 +19,7 @@ const router = createBrowserRouter([
     element: <Notice/>,
   },
   {
-    path: '/detail/:noticeId',
+    path: '/notice/:noticeId',
     element: <NoticeDetail/>,
   },
   {

@@ -32,14 +32,13 @@ export default function Detail() {
             <Styles.Container>
                 <Header />
                 <Styles.Wrapper>
-                    <p>공지사항</p>
-
                     {data && (
                         <Styles.Content>
-                            <div>{data.title}</div>
-                            <p>{data.data}</p>
+                            <p className='title'>{data.title}</p>
+                            <p className='date'>{data.date}</p>
+                            <div></div>
                             <img src={data.images} alt="" />
-                            <p>{data.content && data.content.split('\n').map((line, index) => (
+                            <p className='content'>{data.content && data.content.split('\n').map((line, index) => (
                                 <React.Fragment key={index}>
                                     {line}
                                     <br />
