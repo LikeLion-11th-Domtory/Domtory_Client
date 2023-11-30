@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSetScreenSize } from '../../setScreenHeight';
 import axios from 'axios';
+
 import styled from 'styled-components';
 import * as Styles from './noticeStyle';
 import * as HeaderStyles from '../../components/header/headerStyle';
@@ -109,10 +110,10 @@ export default function Notice() {
                     </Styles.Text>
 
                     {displayedData.map((notice, index) => (
-                        <Link key={notice.id} to={`/notice/${notice.id}`}>
-                            <NoticeBox notice={notice} index={index + 1} />
-                        </Link>
-                    ))}
+    <Link key={notice.id} to={`/notice/${notice.id}`}>
+        <NoticeBox notice={notice} index={startIndex + index + 1} />
+    </Link>
+))}
 
                     {/* 페이지네이션 */}
                     <div>
