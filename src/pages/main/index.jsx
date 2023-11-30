@@ -14,6 +14,7 @@ import { requestPermission } from '../../FirebaseConfig';
 import { redirect, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import PushInformModal from '../../components/pushInformModal';
+import UserApi from '../../utils/api';
 
 export default function Main() {
     const navigate = useNavigate();
@@ -22,27 +23,27 @@ export default function Main() {
     });
     useSetScreenSize();
     const [isPushToken,setIsPushToken] = useState(false);
-    const [isPushModal,setIspushModal] = useState(true);
+    const [isPushModal,setIspushModal] = useState(false);
+    const [noticeList, setNoticeList] = useState([]);
     const onClickPush = () => {
         requestPermission(setIspushModal);
     }
-    // const apicall = async () => {
-    //   try{
-    //     const menu = axios.get('https://api.domtory.site/menu/231128/total/');
-    //     console.log(menu.data);
-    //   } catch(error){
-    //     console.error(error);
-    //   }
-    // } 
+    const getNoticeList = async () => {
+      try{
+        const response = await UserApi.getNotice();
+        setNoticeList(response);
+        console.log(noticeList);
+      } catch(error){
+        console.error(error);
+      }
+    } 
 
-    // useEffect(() => {
-    //   apicall();
-    // },[])
     const onClickNightOut = () => {
       window.open('http://1.246.219.13:8080/cbhs/indexstdds.html?var1=M000004116','_blank');
     }
     useEffect(() => {
       setIsPushToken(localStorage.getItem('fcm_token'));
+      getNoticeList();
     },[])
     return(
         <>

@@ -62,8 +62,9 @@ export const handleFirebaseToken = async () => {
         });
         if (fcm_token) {
           console.log(fcm_token);
-          UserApi.postFcmToken({ pushToken: fcm_token })
+          const response = await UserApi.postFcmToken({ pushToken: fcm_token })
             .then((response) => {
+              alert('푸시 알림 설정이 완료되었습니다.')
             })
             .catch((error) => console.error(error));
             localStorage.setItem('fcm_token', fcm_token);
@@ -101,41 +102,3 @@ export const requestPermission = async (setIsPushModal) => {
   }
   handleGranted();
 };
-
-
-// const handleGranted = (setDeviceToken) => {
-//   console.log('알림 권한이 허용됨');
-  
-// }
-
-// export const requestPermission = async(setDeviceToken) => {
-//   if (!('Notification' in window)) {
-//     // Check if the browser supports notifications
-//     console.log('This browser does not support desktop notification');
-//   } else if (Notification.permission === 'default') {
-//   console.log("권한 요청 중...");
-
-//   const permission = await Notification.requestPermission();
-//   if (permission === "denied") {
-//     console.log("알림 권한 허용 안됨");
-//     alert('알림 권한을 허용해주세요!');
-//     return;
-//   } else{
-//   console.log("알림 권한이 허용됨");
-
-//   }
-
-//   const token = await getToken(messaging, {
-//     vapidKey: process.env.REACT_APP_VAPID_KEY,
-//   });
-
-//   if (token) {
-//     console.log("token: ", token);
-//     setDeviceToken({token});
-//   } else console.log("Can not get Token");
-
-//   onMessage(messaging, (payload) => {
-//     console.log("메시지가 도착했습니다.", payload);
-//     // ...
-//   })};
-// }

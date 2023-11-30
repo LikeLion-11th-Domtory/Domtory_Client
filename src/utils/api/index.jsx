@@ -25,6 +25,15 @@ class UserApi{
             throw new error();
         }
     }
+
+    static async getNotice() {
+        try{
+            const response = await axios.get(`https://api.domtory.site/notice/`);
+            return response;
+        } catch(error){
+            throw new error();
+        }
+    }
 }
 
 export default UserApi;
