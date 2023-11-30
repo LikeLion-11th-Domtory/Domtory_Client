@@ -6,7 +6,7 @@ import axios from 'axios';
 import * as Styles from './menuStyle';
 import GlobalStyle from '../../GlobalStyle';
 import { Header } from '../notice/notice';
-import Slider from "react-slick";
+import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
@@ -27,34 +27,33 @@ export default function Menu() {
         const days = ['일', '월', '화', '수', '목', '금', '토'];
         return days[day];
     }
+
     const today = new Date();
+    const formattedDate = `${today.getFullYear().toString().slice(-2)}${(today.getMonth() + 1).toString().padStart(2, '0')}${today.getDate().toString().padStart(2, '0')}`;
     const todayFormatted = `${today.getMonth() + 1}.${today.getDate()} (${getDayName(today.getDay())})`;
+
     const [selectedDate, setSelectedDate] = useState(todayFormatted);
-
-    const handleDateClick = (date) => {
-        setSelectedDate(date);
-
-        const selectedMenu = data.find((day) => day.date_detail.slice(3) === date);
-        setMenuData(selectedMenu);
-    };
-
     const [data, setData] = useState([]);
     const [menuData, setMenuData] = useState([]);
 
     useEffect(() => {
-        axios.get('https://api.domtory.site/menu/231130/total/')
+        axios.get(`https://api.domtory.site/menu/${formattedDate}/total/`)
             .then((response) => {
                 console.log(response.data);
                 setData(response.data);
-                if (response.data.length > 0) {
-                    setSelectedDate(response.data[0].date_detail.slice(3));
-                    setMenuData(response.data[0]);
-                }
+                const todayMenu = response.data.find((day) => day.date_detail.slice(3) === selectedDate);
+                setMenuData(todayMenu);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, []);
+    }, [formattedDate]);
+
+    const handleDateClick = (date) => {
+        setSelectedDate(date);
+        const selectedMenu = data.find((day) => day.date_detail.slice(3) === date);
+        setMenuData(selectedMenu);
+    };
 
     return (
         <>
@@ -75,7 +74,7 @@ export default function Menu() {
                         )}
                     </Styles.Date>
 
-                    {selectedDate && <p className='selected'>{selectedDate}</p>}
+                    {selectedDate && <p className="selected">{selectedDate} 식단</p>}
 
                     {/* 메뉴 */}
                     {menuData && (
@@ -111,8 +110,8 @@ export default function Menu() {
                             )}
                         </>
                     )}
-                </Styles.Wrapper >
-            </Styles.Container >
+                </Styles.Wrapper>
+            </Styles.Container>
         </>
     );
-};
+}
