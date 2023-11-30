@@ -26,23 +26,6 @@ export default function Detail() {
             });
     }, []);
 
-    function base64Decode(encodedData) {
-        return atob(encodedData);
-    }
-
-    function createImageElement(decodedData) {
-        const imgElement = document.createElement('img');
-        imgElement.src = `data:image/png;base64,${decodedData}`;
-        return imgElement;
-    }
-
-    let imgElement = null;
-
-    if (img) {
-        const decodedImageData = base64Decode(img);
-        imgElement = createImageElement(decodedImageData);
-    }
-
     return (
         <>
             <GlobalStyle />
@@ -55,7 +38,7 @@ export default function Detail() {
                         <Styles.Content>
                             <div>{data.title}</div>
                             <p>{data.data}</p>
-                            {imgElement && <img src={imgElement.src} alt="" />}
+                            <img src={data.images} alt="" />
                             <p>{data.content && data.content.split('\n').map((line, index) => (
                                 <React.Fragment key={index}>
                                     {line}
