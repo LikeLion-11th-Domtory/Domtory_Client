@@ -37,6 +37,17 @@ export default function Main() {
       }
     } 
 
+    const onClickDeleteToken = async (token) => {
+      try{
+        const tokenToDisable = {
+          pushToken: token
+        }
+        const response = await UserApi.PostDisableFcmToken();
+        localStorage.removeItem('fcm_token');
+      } catch(error){
+        console.error(error);
+      }
+    }
 
     const onClickNightOut = () => {
       window.open('http://1.246.219.13:8080/cbhs/indexstdds.html?var1=M000004116','_blank');
@@ -68,7 +79,7 @@ export default function Main() {
               </Styles.MenuWrapper>
               <Styles.PushButtonWrapper>
                 {isPushToken ? 
-                  <Styles.PushButton style={{cursor:'pointer', backgroundColor: 'white', border: '1px solid black'}}>🙅‍♂️ 푸쉬알림 비활성화하기 🙅‍♂️</Styles.PushButton>
+                  <Styles.PushButton onClick = {() => onClickDeleteToken()} style={{cursor:'pointer', backgroundColor: 'white', border: '1px solid black'}}>🙅‍♂️ 푸쉬알림 비활성화하기 🙅‍♂️</Styles.PushButton>
                   :
                   <Styles.PushButton onClick={() => onClickPush()} style={{cursor:'pointer'}}>🍙 푸쉬알림 허용하고 식단 알림받기 🍙</Styles.PushButton>
                 }

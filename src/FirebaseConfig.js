@@ -24,6 +24,7 @@ export const messaging = (async () => {
     console.log("Firebase is not supported in this browser");
     return null;
   } catch (err) {
+    console.log('error in messaging');
     console.log(err);
     return null;
   }
@@ -55,6 +56,9 @@ export const handleFirebaseToken = async () => {
     // prevent racing problem and call initializeApp -> getMessaging-> getToken in sequences.
     if (messagingResolve) {
       const registration = await getOrRegisterServiceWorker();
+      console.log(messagingResolve);
+      console.log(process.env.REACT_APP_VAPID_KEY);
+      console.log(registration);
       if (registration.active) {
         const fcm_token = await getToken(messagingResolve, {
           vapidKey: process.env.REACT_APP_VAPID_KEY,
@@ -62,19 +66,20 @@ export const handleFirebaseToken = async () => {
         });
         if (fcm_token) {
           console.log(fcm_token);
-          const response = await UserApi.postFcmToken({ pushToken: fcm_token })
+          UserApi.postFcmToken({ pushToken: fcm_token })
             .then((response) => {
-              alert('푸시 알림 설정이 완료되었습니다.')
+              console.log(response);
             })
             .catch((error) => console.error(error));
-            localStorage.setItem('fcm_token', fcm_token);
-          }
+          localStorage.setItem('fcm_token', fcm_token);
+        }
       }
     }
   } catch (error) {
     console.error(error);
   }
 };
+
 
 const handleGranted = () => {
   console.log('알림 권한이 허용됨');
@@ -94,7 +99,7 @@ export const requestPermission = async (setIsPushModal) => {
     console.log('권한 요청 중...');
     const permission = await Notification.requestPermission();
     if (permission === 'denied') {
-      alert(`알림 권한을 허용해주세요! \n 모바일 환경에서는 \'홈 화면에 추가하기\'를 통해서 설치하고, 알림을 받을 수 있습니다.`);
+      alert(`알림 권한을 허용해주세요!`);
       return;
     } else {
       handleGranted();
