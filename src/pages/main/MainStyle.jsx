@@ -39,6 +39,20 @@ export const NoticeDetail = styled.div`
 export const MarqueeDetail = styled(MarQuee)`
 `
 
+export const PushWrapper = styled.div`
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    `
+export const PushInform = styled.div`
+    width: 100%;
+    font-size: 16px;
+    text-align: center;
+    color: grey;
+`
+
+
 export const RecentNotice = styled.div`
     margin-right: 100px;
     `
