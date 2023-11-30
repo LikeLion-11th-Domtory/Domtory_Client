@@ -32,11 +32,11 @@ export default function Main() {
       try{
         const response = await UserApi.getNotice();
         setNoticeList(response.data.slice(-3));
-        console.log(noticeList);
       } catch(error){
         console.error(error);
       }
     } 
+
 
     const onClickNightOut = () => {
       window.open('http://1.246.219.13:8080/cbhs/indexstdds.html?var1=M000004116','_blank');
@@ -52,7 +52,7 @@ export default function Main() {
               <Header/>
               <Styles.NoticeWrapper>
                 <img src={logo} style={{width: '2rem'}}/>
-                <Styles.NoticeDetailWrapper>
+                <Styles.NoticeDetailWrapper onClick={() => navigate('/notice')}>
                    <Styles.Notice>최근 공지사항</Styles.Notice> 
                    <Styles.NoticeDetail>
                         <Styles.MarqueeDetail>

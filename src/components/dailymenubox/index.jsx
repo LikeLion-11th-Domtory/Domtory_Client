@@ -2,12 +2,17 @@ import React, { useState, useEffect } from 'react';
 import GlobalStyle from '../../GlobalStyle';
 import * as Styles from './menuStyle';
 import UserApi from '../../utils/api';
+import { useNavigate } from 'react-router-dom';
 
 const DailyMenuBox = () => {
     const [menuList, setMenuList] = useState([]);
     const [daydiv, setDayDiv] = useState('');
     const [formatedDate, setFormatedDate] = useState('');
+    const navigate = useNavigate();
 
+    const onClickMenu = () => {
+        navigate('/menu');
+    }
     useEffect(() => {
         const today = new Date();
         const week = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
@@ -52,7 +57,7 @@ const DailyMenuBox = () => {
     return (
         <>
             <GlobalStyle />
-            <Styles.Container>
+            <Styles.Container onClick={() => onClickMenu()}>
                 <Styles.Day>{formatedDate}</Styles.Day>
                 <Styles.DayDiv>{daydiv}</Styles.DayDiv>
                 <Styles.Menu>
