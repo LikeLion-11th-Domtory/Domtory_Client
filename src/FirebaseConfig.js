@@ -64,11 +64,10 @@ export const handleFirebaseToken = async () => {
           console.log(fcm_token);
           UserApi.postFcmToken({ pushToken: fcm_token })
             .then((response) => {
-              console.log(response);
             })
             .catch((error) => console.error(error));
-          localStorage.setItem('fcm_token', fcm_token);
-        }
+            localStorage.setItem('fcm_token', fcm_token);
+          }
       }
     }
   } catch (error) {
