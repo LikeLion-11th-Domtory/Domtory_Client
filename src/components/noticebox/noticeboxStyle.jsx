@@ -21,9 +21,10 @@ export const Notice = styled.div`
         }
 
     .date {
+        font-size: 0.6rem;
         font-weight: 600;
         margin-right: 0.3rem;
-        flex: 0.35;
+        flex: 0.3;
     }
 `
 

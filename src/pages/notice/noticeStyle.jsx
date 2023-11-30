@@ -69,6 +69,6 @@ export const Text = styled.div`
 
     .date {
         margin-right: 0.5rem;
-        flex: 0.3;
+        flex: 0.28;
     }
 `
