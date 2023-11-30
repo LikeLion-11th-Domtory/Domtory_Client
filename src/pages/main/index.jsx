@@ -31,7 +31,7 @@ export default function Main() {
     const getNoticeList = async () => {
       try{
         const response = await UserApi.getNotice();
-        setNoticeList(response);
+        setNoticeList(response.data.slice(-3));
         console.log(noticeList);
       } catch(error){
         console.error(error);
@@ -56,7 +56,9 @@ export default function Main() {
                    <Styles.Notice>최근 공지사항</Styles.Notice> 
                    <Styles.NoticeDetail>
                         <Styles.MarqueeDetail>
-                            집 가고싶다
+                          {noticeList.map((notice) => (
+                            <Styles.RecentNotice>{notice.title}</Styles.RecentNotice>
+                          ))}
                         </Styles.MarqueeDetail>
                    </Styles.NoticeDetail>
                 </Styles.NoticeDetailWrapper>
