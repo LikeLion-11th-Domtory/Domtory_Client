@@ -72,6 +72,7 @@ export const handleFirebaseToken = async () => {
             .then((response) => {
               console.log(response);
               alert('알림이 설정되었습니다.');
+              window.location.reload();
             })
             .catch((error) => {
               alert('알림 설정 중 에러가 발생했습니다. 다시 시도해 주세요.');
