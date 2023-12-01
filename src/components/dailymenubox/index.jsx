@@ -8,6 +8,7 @@ const DailyMenuBox = () => {
     const [menuList, setMenuList] = useState([]);
     const [daydiv, setDayDiv] = useState('');
     const [formatedDate, setFormatedDate] = useState('');
+    const [dateForApi, setdateForApi] = useState(``);
     const navigate = useNavigate();
 
     const onClickMenu = () => {
@@ -19,26 +20,20 @@ const DailyMenuBox = () => {
         const dayOfWeek = week[today.getDay()];
         const hour = today.getHours();
         let dayDivForApi;
-        
-        const formatedDate = `${today.getMonth() + 1}.${today.getDate()}(${dayOfWeek})`;
-        if (hour < 9 || hour >= 0) {
+
+        if (hour < 9 || hour >= 21) {
             setDayDiv('아침');
             dayDivForApi = 'breakfast';
-            setFormatedDate(formatedDate);
         } else if (hour >= 9 || hour <= 13) {
             setDayDiv('점심');
             dayDivForApi = 'lunch';
-            setFormatedDate(formatedDate);
-        } else if (hour >= 13 || hour <= 21){
+        } else {
             setDayDiv('저녁');
             dayDivForApi = 'dinner';
-            setFormatedDate(formatedDate);
-        } else if (hour >= 22 || hour <= 24){
-            setDayDiv('아침');
-            const nextDay = `${today.getMonth() + 1}.${today.getDate()+1}(${dayOfWeek})`
-            setFormatedDate(nextDay);
         }
 
+        const formatedDate = `${today.getMonth() + 1}.${today.getDate()}(${dayOfWeek})`;
+        setFormatedDate(formatedDate);
 
         const formatedDateForApi = `${today.getFullYear().toString().slice(-2)}${String(today.getMonth() + 1).padStart(2, '0')}${String(today.getDate()).padStart(2, '0')}`;
 
