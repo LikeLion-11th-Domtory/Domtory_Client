@@ -31,7 +31,7 @@ const DailyMenuBox = () => {
             setDayDiv('저녁');
             dayDivForApi = 'dinner';
         }
-
+        
         const formatedDate = `${today.getMonth() + 1}.${today.getDate()}(${dayOfWeek})`;
         setFormatedDate(formatedDate);
 
