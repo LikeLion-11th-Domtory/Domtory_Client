@@ -15,23 +15,20 @@ const firebaseConfig = {
 };
 
 export const app = initializeApp(firebaseConfig);
-export const messaging = () => {
-  return getMessaging(app);
-}
-// export const messaging = (async () => {
-  // try {
-  //   const isSupportedBrowser = await isSupported();
-  //   if (isSupportedBrowser) {
-  //     return getMessaging(app);
-  //   }
-  //   console.log("Firebase is not supported in this browser");
-  //   return null;
-  // } catch (err) {
-  //   console.log('error in messaging');
-  //   console.log(err);
-  //   return null;
-  // }
-// })();
+export const messaging = (async () => {
+  try {
+    const isSupportedBrowser = await isSupported();
+    if (isSupportedBrowser) {
+      return getMessaging(app);
+    }
+    console.log("Firebase is not supported in this browser");
+    return null;
+  } catch (err) {
+    console.log('error in messaging');
+    console.log(err);
+    return null;
+  }
+})();
 
 // Initialize Firebase
 export const getOrRegisterServiceWorker = () => {
@@ -55,7 +52,7 @@ export const getOrRegisterServiceWorker = () => {
 // getFirebaseToken function generates the FCM token
 export const handleFirebaseToken = async () => {
   try {
-    const messagingResolve = await messaging();
+    const messagingResolve = await messaging;
     console.log(messagingResolve);
     // prevent racing problem and call initializeApp -> getMessaging-> getToken in sequences.
     if (messagingResolve) {

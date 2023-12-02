@@ -27,9 +27,11 @@ export default function Main() {
     const [isPushModal,setIspushModal] = useState(false);
     const [noticeList, setNoticeList] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+
     const onClickPush = () => {
         requestPermission(setIspushModal);
     }
+
     const getNoticeList = async () => {
       try{
         const response = await UserApi.getNotice();
@@ -58,7 +60,10 @@ export default function Main() {
     useEffect(() => {
       setIsPushToken(localStorage.getItem('fcm_token'));
       getNoticeList();
-      getOrRegisterServiceWorker();
+      const ispushValid = localStorage.getItem('fcm_token');
+      if(ispushValid){
+        getOrRegisterServiceWorker();
+      }
     },[])
     return(
         <>
@@ -83,10 +88,10 @@ export default function Main() {
               </Styles.MenuWrapper>
               <Styles.PushButtonWrapper>
                 {isPushToken ? 
-                  <Styles.PushButton onClick = {() => onClickDeleteToken()} style={{cursor:'pointer', backgroundColor: 'white', border: '1px solid black'}}>🙅‍♂️ 푸쉬알림 비활성화하기 🙅‍♂️</Styles.PushButton>
+                  <Styles.PushButton onClick = {() => onClickDeleteToken()} style={{cursor:'pointer', backgroundColor: 'white', border: '1px solid black', color: 'black'}}>🙅‍♂️ 푸쉬알림 비활성화하기 🙅‍♂️</Styles.PushButton>
                   : (
                   <Styles.PushWrapper>
-                  <Styles.PushButton onClick={() => onClickPush()} style={{cursor:'pointer'}}>🍙 푸쉬알림 허용하고 식단 알림받기 🍙</Styles.PushButton>
+                  <Styles.PushButton onClick={() => onClickPush()} style={{color:'black'}}>🍙 푸쉬알림 허용하고 식단 알림받기 🍙</Styles.PushButton>
                   <Styles.PushInform>혹시 팝업이 안 뜬다면, 한번 더 눌러주세요!</Styles.PushInform>
                   </Styles.PushWrapper>
                   )
