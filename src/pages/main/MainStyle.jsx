@@ -49,7 +49,6 @@ export const PushInform = styled.div`
     width: 100%;
     font-size: 16px;
     text-align: center;
-    color: grey;
 `
 
 
