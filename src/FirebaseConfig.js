@@ -57,7 +57,6 @@ export const handleFirebaseToken = async () => {
     // prevent racing problem and call initializeApp -> getMessaging-> getToken in sequences.
     if (messagingResolve) {
       const registration = await getOrRegisterServiceWorker();
-      console.log(registration);
       if (registration.active) {
         const fcm_token = await getToken(messagingResolve, {
           vapidKey: process.env.REACT_APP_VAPID_KEY,
@@ -111,4 +110,5 @@ export const requestPermission = async (setIsPushModal) => {
       handleGranted();
     }
   }
+  handleGranted();
 };
