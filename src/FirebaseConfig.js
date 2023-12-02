@@ -94,6 +94,7 @@ export const requestPermission = async (setIsPushModal, setIsLoading) => {
   setIsLoading(true);
   if (!('Notification' in window)) {
     setIsPushModal(true);
+    setIsLoading(false);
     // Check if the browser supports notifications
     console.log('This browser does not support desktop notification');
   } else if (Notification.permission === 'default') {
@@ -103,6 +104,7 @@ export const requestPermission = async (setIsPushModal, setIsLoading) => {
       alert(`알림 권한을 허용해주세요!`);
       return;
     } else {
+      setIsLoading(false);
       handleGranted();
     }
   }

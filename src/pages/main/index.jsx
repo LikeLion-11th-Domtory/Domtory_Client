@@ -61,6 +61,9 @@ export default function Main() {
       setIsPushToken(localStorage.getItem('fcm_token'));
       getNoticeList();
       const ispushValid = localStorage.getItem('fcm_token');
+      if(ispushValid){
+        getOrRegisterServiceWorker();
+      }
     },[])
     return(
         <>
