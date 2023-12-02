@@ -65,35 +65,36 @@ export const handleFirebaseToken = async () => {
           UserApi.postFcmToken({ pushToken: fcm_token })
             .then((response) => {
               alert('알림이 설정되었습니다.');
-              window.location.reload();
             })
             .catch((error) => {
               alert('알림 설정 중 에러가 발생했습니다. 다시 시도해 주세요.');
               console.error(error);
             });
-          localStorage.setItem('fcm_token', fcm_token);
+            localStorage.setItem('fcm_token', fcm_token);
+          }
         }
       }
+    } catch (error) {
+      console.error(error);
     }
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-
-const handleGranted = () => {
-  console.log('알림 권한이 허용됨');
-  handleFirebaseToken().catch((error) => console.error(error));
-
-  onMessage(messaging, payload => {
-    console.log('메시지가 도착했습니다.', payload);
-  });
+  };
+  
+  
+  const handleGranted = () => {
+    console.log('알림 권한이 허용됨');
+    handleFirebaseToken().catch((error) => console.error(error));
+    
+    onMessage(messaging, payload => {
+      console.log('메시지가 도착했습니다.', payload);
+    });
+    window.location.reload();
 };
 
 export const requestPermission = async (setIsPushModal, setIsLoading) => {
   setIsLoading(true);
   if (!('Notification' in window)) {
     setIsPushModal(true);
+    setIsLoading(false);
     // Check if the browser supports notifications
     console.log('This browser does not support desktop notification');
   } else if (Notification.permission === 'default') {
@@ -103,6 +104,7 @@ export const requestPermission = async (setIsPushModal, setIsLoading) => {
       alert(`알림 권한을 허용해주세요!`);
       return;
     } else {
+      setIsLoading(false);
       handleGranted();
     }
   }
