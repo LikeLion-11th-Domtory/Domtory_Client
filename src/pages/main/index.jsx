@@ -29,7 +29,7 @@ export default function Main() {
     const [isLoading, setIsLoading] = useState(true);
 
     const onClickPush = () => {
-        requestPermission(setIspushModal);
+        requestPermission(setIspushModal,setIsLoading);
     }
 
     const getNoticeList = async () => {
