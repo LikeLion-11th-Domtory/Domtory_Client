@@ -88,11 +88,14 @@ export default function Main() {
               </Styles.MenuWrapper>
               <Styles.PushButtonWrapper>
                 {isPushToken ? 
-                  <Styles.PushButton onClick = {() => onClickDeleteToken()} style={{cursor:'pointer', backgroundColor: 'white', border: '1px solid black', color: 'black'}}>🙅‍♂️ 푸쉬알림 비활성화하기 🙅‍♂️</Styles.PushButton>
+                  <Styles.PushWrapper>
+                    <Styles.PushButton onClick = {() => onClickDeleteToken()} style={{cursor:'pointer', backgroundColor: 'white', border: '1px solid black', color: 'black'}}>🙅‍♂️ 푸쉬알림 비활성화하기 🙅‍♂️</Styles.PushButton>
+                    <Styles.PushInform>⚠️ 푸시 알림은 브라우저를 강제종료 시 작동하지 않아요 ⚠️</Styles.PushInform>
+                  </Styles.PushWrapper>
                   : (
                   <Styles.PushWrapper>
                   <Styles.PushButton onClick={() => onClickPush()} style={{color:'black'}}>🍙 푸쉬알림 허용하고 식단 알림받기 🍙</Styles.PushButton>
-                  <Styles.PushInform>혹시 팝업이 안 뜬다면, 한번 더 눌러주세요!</Styles.PushInform>
+                  <Styles.PushInform>⚠️ 푸시 알림은 앱을 강제종료 시 작동하지 않아요 ⚠️</Styles.PushInform>
                   </Styles.PushWrapper>
                   )
                 }
