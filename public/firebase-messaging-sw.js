@@ -6,7 +6,6 @@ self.addEventListener("install", function (e) {
   
 self.addEventListener("activate", function (e) {
     console.log("fcm sw activate..");
-    self.clients.claim();
   });
   
 self.addEventListener("push", function (e) {
