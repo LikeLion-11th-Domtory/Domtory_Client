@@ -15,6 +15,7 @@ import { redirect, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import PushInformModal from '../../components/pushInformModal';
 import UserApi from '../../utils/api';
+import LoadingScreen from '../../components/loading';
 
 export default function Main() {
     const navigate = useNavigate();
@@ -25,6 +26,7 @@ export default function Main() {
     const [isPushToken,setIsPushToken] = useState(false);
     const [isPushModal,setIspushModal] = useState(false);
     const [noticeList, setNoticeList] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
     const onClickPush = () => {
         requestPermission(setIspushModal);
     }
@@ -32,6 +34,7 @@ export default function Main() {
       try{
         const response = await UserApi.getNotice();
         setNoticeList(response.data.slice(-3));
+        setIsLoading(false);
       } catch(error){
         console.error(error);
       }
@@ -109,6 +112,7 @@ export default function Main() {
               </Styles.ViewButtonWrapper>
               <A2HS/>
             <PushInformModal isPushModal={isPushModal} setIspushModal={setIspushModal}/>
+            {isLoading && <LoadingScreen/>}
             </Styles.Container>
         </>
     );

@@ -22,6 +22,7 @@ export const Title = styled.div`
     justify-content: center;
     padding: 10px;
     font-weight: 700;
+    font-size: 18px;
 `
 
 export const InformImg = styled.img`
@@ -33,6 +34,7 @@ export const Detail = styled.div`
     width: 100%;
     display: flex;
     padding: 20px;
+    font-size: 15px;
 `
 
 export const CloseButton = styled.button`
@@ -40,4 +42,5 @@ export const CloseButton = styled.button`
     padding: 15px;
     border: none;
     background-color: #efaf48;
+    color: black;
 `

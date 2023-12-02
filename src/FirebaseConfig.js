@@ -83,8 +83,6 @@ export const handleFirebaseToken = async () => {
       }
     }
   } catch (error) {
-    console.log(firebaseConfig);
-    alert('알림 설정 중 에러가 발생했습니다. 다시 시도해 주세요.');
     console.error(error);
   }
 };
@@ -114,5 +112,4 @@ export const requestPermission = async (setIsPushModal) => {
       handleGranted();
     }
   }
-  handleGranted();
 };
