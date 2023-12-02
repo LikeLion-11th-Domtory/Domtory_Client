@@ -1,4 +1,3 @@
-
 import { initializeApp } from "firebase/app";
 import {getMessaging, getToken, onMessage, isSupported} from "firebase/messaging";
 import UserApi from "./utils/api";
@@ -62,13 +61,9 @@ export const handleFirebaseToken = async () => {
           vapidKey: process.env.REACT_APP_VAPID_KEY,
           serviceWorkerRegistration: registration,
         });
-        console.log('before getToken');
-        console.log(fcm_token);
         if (fcm_token) {
-          console.log(fcm_token);
           UserApi.postFcmToken({ pushToken: fcm_token })
             .then((response) => {
-              console.log(response);
               alert('알림이 설정되었습니다.');
               window.location.reload();
             })
@@ -95,7 +90,8 @@ const handleGranted = () => {
   });
 };
 
-export const requestPermission = async (setIsPushModal) => {
+export const requestPermission = async (setIsPushModal, setIsLoading) => {
+  setIsLoading(true);
   if (!('Notification' in window)) {
     setIsPushModal(true);
     // Check if the browser supports notifications
