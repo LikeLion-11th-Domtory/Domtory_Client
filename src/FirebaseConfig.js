@@ -87,7 +87,6 @@ export const handleFirebaseToken = async () => {
     onMessage(messaging, payload => {
       console.log('메시지가 도착했습니다.', payload);
     });
-    window.location.reload();
 };
 
 export const requestPermission = async (setIsPushModal, setIsLoading) => {
@@ -109,4 +108,5 @@ export const requestPermission = async (setIsPushModal, setIsLoading) => {
     }
   }
   handleGranted();
+  window.location.reload();
 };
