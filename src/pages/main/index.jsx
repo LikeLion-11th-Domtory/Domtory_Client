@@ -90,7 +90,7 @@ export default function Main() {
                 {isPushToken ? 
                   <Styles.PushWrapper>
                     <Styles.PushButton onClick = {() => onClickDeleteToken()} style={{cursor:'pointer', backgroundColor: 'white', border: '1px solid black', color: 'black'}}>🙅‍♂️ 푸쉬알림 비활성화하기 🙅‍♂️</Styles.PushButton>
-                    <Styles.PushInform>⚠️ 푸시 알림은 브라우저를 강제종료 시 작동하지 않아요 ⚠️</Styles.PushInform>
+                    <Styles.PushInform>⚠️ 푸시 알림은 앱을 강제종료 시 작동하지 않아요 ⚠️</Styles.PushInform>
                   </Styles.PushWrapper>
                   : (
                   <Styles.PushWrapper>
