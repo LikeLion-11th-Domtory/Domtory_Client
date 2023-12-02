@@ -107,6 +107,6 @@ export const requestPermission = async (setIsPushModal, setIsLoading) => {
       handleGranted();
     }
   }
-  handleGranted();
+  await handleGranted();
   window.location.reload();
 };
