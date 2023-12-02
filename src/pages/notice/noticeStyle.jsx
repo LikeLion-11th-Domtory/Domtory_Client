@@ -12,11 +12,11 @@ export const Wrapper = styled.div`
     padding-bottom: 1.5rem;
 
     p {
-        font-size: 1.1rem;
+        font-size: 1rem;
         font-weight: 600;
-        margin: 1rem 0;
+        margin: 0.8rem 0;
+        margin-top: 0.5rem;
         padding-left: 1rem;
-        
     }
 
     a {
@@ -32,12 +32,13 @@ export const Wrapper = styled.div`
 
 export const Input = styled.div`
     width: 90%;
-    height: 1.7rem;
+    height: 1.6rem;
     margin-bottom: 1rem;
     border-radius: 1rem;
     border: 1px solid #000;
     display: flex;
     padding: 0.3rem;
+    padding-left: 0;
     margin: 0.8rem;
 
     input {
@@ -52,7 +53,8 @@ export const Input = styled.div`
     }
 
     img {
-        padding-left: 0.5rem;
+        width: 23px;
+        height: 21px;
     }
 `
 
@@ -74,6 +76,6 @@ export const Text = styled.div`
 
     .date {
         margin-right: 0.5rem;
-        flex: 0.27;
+        flex: 0.2;
     }
 `

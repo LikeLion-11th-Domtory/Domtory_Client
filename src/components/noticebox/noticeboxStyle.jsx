@@ -5,12 +5,13 @@ export const Notice = styled.div`
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    height: 2.8rem;
+    height: 2.5rem;
     padding: 0.5rem 0.7rem;
     padding-right: 0.1rem;
 
     .num {
-        flex: 0.07;
+        font-size: 0.6rem;
+        flex: 0.06;
         font-weight: 600;
     }
 
@@ -21,10 +22,10 @@ export const Notice = styled.div`
         }
 
     .date {
-        font-size: 0.6rem;
+        font-size: 0.5rem;
         font-weight: 600;
-        margin-right: 0.3rem;
-        flex: 0.3;
+        margin-right: 0rem;
+        flex: 0.25;
     }
 `
 
