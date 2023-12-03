@@ -1,9 +1,10 @@
 // firebase-messaging-sw.js
 
-import { getMessaging, onMessage } from "firebase/messaging";
+importScripts("https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js");
+importScripts("https://www.gstatic.com/firebasejs/9.15.0/firebase-messaging-compat.js");
 
-const consoleMessage = (message) => {
-  console.log(`Service Worker: ${message}`);
+const consoleMessage = function (message) {
+  console.log("Service Worker: " + message);
 };
 
 self.addEventListener("install", function (e) {
@@ -11,7 +12,7 @@ self.addEventListener("install", function (e) {
   consoleMessage("INSTALL");
 });
 
-self.addEventListener("activate", (event) => {
+self.addEventListener("activate", function (event) {
   consoleMessage("ACTIVE");
 });
 
@@ -39,10 +40,10 @@ self.addEventListener("notificationclick", function (event) {
 });
 
 // Firebase Cloud Messaging
-const handleFirebaseMessaging = async () => {
-  const messaging = await getMessaging();
+const handleFirebaseMessaging = async function () {
+  const messaging = getMessaging();
 
-  onMessage(messaging, (payload) => {
+  onMessage(messaging, function (payload) {
     console.log("Message received:", payload);
 
     const notificationOptions = {
