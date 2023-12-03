@@ -33,11 +33,27 @@
   </head>
   <body>
     <Script>
-      (function () {
-        if ("serviceWorker" in navigator) {
-          navigator.serviceWorker.register("/sw.js");
-        }
-      })();
+// your main JavaScript file or index.js
+
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/firebase-messaging-sw.js").then((registration) => {
+        console.log("Service Worker registered with scope:", registration.scope);
+
+        // Check for updates to the service worker
+        registration.addEventListener("updatefound", () => {
+          const newWorker = registration.installing;
+
+          newWorker.addEventListener("statechange", () => {
+            if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
+              console.log("New service worker installed, refreshing...");
+              // Trigger a page reload to activate the new service worker
+              window.location.reload();
+            }
+          });
+        });
+      });
+    }
+
     </Script>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
