@@ -10,7 +10,7 @@ import noticeimg from '../../assets/noticeimg.png';
 import handelAllowNotification from '../../components/PushAlert';
 import { useEffect, useState } from 'react';
 import A2HS from '../../components/installprompt';
-import { getOrRegisterServiceWorker, requestPermission } from '../../FirebaseConfig';
+import { getOrRegisterServiceWorker, getSavedSubscription, handleFirebaseToken, requestPermission, updateServiceWorker } from '../../FirebaseConfig';
 import { redirect, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import PushInformModal from '../../components/pushInformModal';
@@ -60,10 +60,7 @@ export default function Main() {
     useEffect(() => {
       setIsPushToken(localStorage.getItem('fcm_token'));
       getNoticeList();
-      const ispushValid = localStorage.getItem('fcm_token');
-      if(ispushValid){
-        getOrRegisterServiceWorker();
-      }
+      // getOrRegisterServiceWorker();
     },[])
     return(
         <>

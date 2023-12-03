@@ -3,7 +3,7 @@ import {getMessaging, getToken, onMessage, isSupported} from "firebase/messaging
 import UserApi from "./utils/api";
 
 
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
   authDomain: "domtory-c1ec1.firebaseapp.com",
   projectId: "domtory-c1ec1",
@@ -31,6 +31,7 @@ export const messaging = (async () => {
 
 // Initialize Firebase
 export const getOrRegisterServiceWorker = () => {
+  console.log(window.navigator.serviceWorker);
   if (
     'serviceWorker' in navigator &&
     typeof window.navigator.serviceWorker !== 'undefined'
@@ -56,12 +57,14 @@ export const handleFirebaseToken = async () => {
     // prevent racing problem and call initializeApp -> getMessaging-> getToken in sequences.
     if (messagingResolve) {
       const registration = await getOrRegisterServiceWorker();
+      console.log(registration);
       if (registration.active) {
         const fcm_token = await getToken(messagingResolve, {
           vapidKey: process.env.REACT_APP_VAPID_KEY,
           serviceWorkerRegistration: registration,
         });
         if (fcm_token) {
+          localStorage.setItem('fcm_token', fcm_token);
           UserApi.postFcmToken({ pushToken: fcm_token })
             .then((response) => {
               alert('알림이 설정되었습니다.');
@@ -70,7 +73,6 @@ export const handleFirebaseToken = async () => {
               alert('알림 설정 중 에러가 발생했습니다. 다시 시도해 주세요.');
               console.error(error);
             });
-            localStorage.setItem('fcm_token', fcm_token);
           }
         }
       }
@@ -79,7 +81,7 @@ export const handleFirebaseToken = async () => {
     }
   };
   
-  
+
   const handleGranted = () => {
     console.log('알림 권한이 허용됨');
     handleFirebaseToken().catch((error) => console.error(error));
@@ -88,6 +90,7 @@ export const handleFirebaseToken = async () => {
       console.log('메시지가 도착했습니다.', payload);
     });
 };
+
 
 export const requestPermission = async (setIsPushModal, setIsLoading) => {
   setIsLoading(true);

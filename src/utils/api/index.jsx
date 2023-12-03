@@ -1,9 +1,9 @@
 import axios from "axios";
 
 class UserApi{
-    static async getTodayMenu(formatedDateForApi, time){
+    static async getTodayMenu(formatedDateForApi, dayDivForApi){
         try{
-            const response = await axios.get(`https://api.domtory.site/menu/${formatedDateForApi}/${time}/`)
+            const response = await axios.get(`https://api.domtory.site/menu/${formatedDateForApi}/${dayDivForApi}/`)
             return response.data;
         } catch(error){
             throw error('getTodayMenu error');
