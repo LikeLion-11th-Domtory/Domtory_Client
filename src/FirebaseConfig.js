@@ -82,13 +82,11 @@ export const handleFirebaseToken = async () => {
   };
   
 
-  const handleGranted = () => {
+  const handleGranted = (setIsLoading) => {
     console.log('알림 권한이 허용됨');
     handleFirebaseToken().catch((error) => console.error(error));
-    
-    onMessage(messaging, payload => {
-      console.log('메시지가 도착했습니다.', payload);
-    });
+
+    setIsLoading(false);
 };
 
 
@@ -107,9 +105,8 @@ export const requestPermission = async (setIsPushModal, setIsLoading) => {
       return;
     } else {
       setIsLoading(false);
-      handleGranted();
+      handleGranted(setIsLoading);
     }
   }
-  await handleGranted();
-  setIsLoading(false);
+  handleGranted(setIsLoading);
 };
