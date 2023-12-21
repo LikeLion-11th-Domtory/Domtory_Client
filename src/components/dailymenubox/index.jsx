@@ -43,7 +43,8 @@ const DailyMenuBox = () => {
         const getmenuData = async () => {
             try {
                 const menuData = await UserApi.getTodayMenu(formatedDateForApi, dayDivForApi);
-                if (hour >= 0 && hour >= 8) {
+                console.log(menuData[0]);
+                if (hour >= 0 && hour <= 8) {
                     setMenuList(menuData[0].breakfast_list);
                 } else if (hour >= 9 && hour <= 13) {
                     setMenuList(menuData[0].lunch_list);
@@ -52,6 +53,7 @@ const DailyMenuBox = () => {
                 } else if (hour >= 21 && hour <=24){
                     setMenuList(menuData[0].breakfast_list);
                 }
+                console.log(menuList);
             } catch (error) {
                 console.error(error);
             }
