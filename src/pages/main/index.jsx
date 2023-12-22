@@ -72,7 +72,7 @@ export default function Main() {
     useEffect(() => {
       setIsPushToken(localStorage.getItem('fcm_token'));
       getNoticeList();
-      if(window.Notification?.permission === "granted"){
+      if(window.Notification?.permission === "granted" && isPushToken){
         handleGranted(setIsLoading);
       }
     },[])
