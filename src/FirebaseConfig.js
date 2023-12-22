@@ -53,8 +53,20 @@ export const getOrRegisterServiceWorker = () => {
 // getFirebaseToken function generates the FCM token
 export const handleFirebaseToken = async () => {
   try {
+    const isToken = localStorage.getItem('fcm_token');
+    if(isToken){
+      await UserApi.PostDisableFcmToken(isToken)
+      .then((response) => {
+        console.log('existing token deleted');
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+    }
+
     const messagingResolve = await messaging;
     console.log('message resolved');
+    
     // prevent racing problem and call initializeApp -> getMessaging-> getToken in sequences.
     if (messagingResolve) {
       const registration = await getOrRegisterServiceWorker();
@@ -85,8 +97,7 @@ export const handleFirebaseToken = async () => {
 
   export const handleGranted = (setIsLoading) => {
     console.log('알림 권한이 허용됨');
-    handleFirebaseToken().catch((error) => console.error(error));
-    setIsLoading(false);
+    handleFirebaseToken(setIsLoading).then(() => setIsLoading(false)).catch((error) => console.error(error));
 };
 
 
