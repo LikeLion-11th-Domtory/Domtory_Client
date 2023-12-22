@@ -10,7 +10,7 @@ import noticeimg from '../../assets/noticeimg.png';
 import handelAllowNotification from '../../components/PushAlert';
 import { useEffect, useState } from 'react';
 import A2HS from '../../components/installprompt';
-import {requestPermission, handleGranted, messaging } from '../../FirebaseConfig';
+import {requestPermission, handleGranted, messaging, reactiveServiceWorker } from '../../FirebaseConfig';
 import { redirect, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import PushInformModal from '../../components/pushInformModal';
@@ -62,19 +62,19 @@ export default function Main() {
 
     const onMessageListener = (async () => {
       const messagingResolve = await messaging;
+      console.log(messagingResolve);
       if (messagingResolve) {
         onMessage(messaging, payload => {
           console.log('메시지가 도착했습니다.', payload);
-        });
+        }
+        );
     }})();
 
     
     useEffect(() => {
       setIsPushToken(localStorage.getItem('fcm_token'));
       getNoticeList();
-      if(window.Notification?.permission === "granted" && isPushToken){
-        handleGranted(setIsLoading);
-      }
+      handleGranted(setIsLoading);
     },[])
 
 

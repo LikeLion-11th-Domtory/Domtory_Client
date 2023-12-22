@@ -74,9 +74,10 @@ export const handleFirebaseToken = async () => {
       if (registration.active) {
         const fcm_token = await getToken(messagingResolve, {
           vapidKey: process.env.REACT_APP_VAPID_KEY,
-          serviceWorkerRegistration: registration,
+          registration
         });
         if (fcm_token) {
+          console.log('updating fcm_token...');
           localStorage.setItem('fcm_token', fcm_token);
           UserApi.postFcmToken({ pushToken: fcm_token })
             .then((response) => {
@@ -122,3 +123,13 @@ export const requestPermission = async (setIsPushModal, setIsLoading) => {
   }
   handleGranted(setIsLoading);
 };
+
+
+export const reactiveServiceWorker = async () => {
+  const messagingResolve = await messaging;
+    console.log('message resolved');
+    // prevent racing problem and call initializeApp -> getMessaging-> getToken in sequences.
+    if (messagingResolve) {
+      const registration = await getOrRegisterServiceWorker();
+    }
+}
