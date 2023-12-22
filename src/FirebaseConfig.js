@@ -14,20 +14,21 @@ export const firebaseConfig = {
 };
 
 export const app = initializeApp(firebaseConfig);
-export const messaging = (async () => {
-  try {
-    const isSupportedBrowser = await isSupported();
-    if (isSupportedBrowser) {
-      return getMessaging(app);
-    }
-    console.log("Firebase is not supported in this browser");
-    return null;
-  } catch (err) {
-    console.log('error in messaging');
-    console.log(err);
-    return null;
-  }
-})();
+export const messaging = getMessaging(app);
+// export const messaging = (async () => {
+//   try {
+//     const isSupportedBrowser = await isSupported();
+//     if (isSupportedBrowser) {
+//       return getMessaging(app);
+//     }
+//     console.log("Firebase is not supported in this browser");
+//     return null;
+//   } catch (err) {
+//     console.log('error in messaging');
+//     console.log(err);
+//     return null;
+//   }
+// })();
 
 // Initialize Firebase
 export const getOrRegisterServiceWorker = () => {
@@ -67,7 +68,7 @@ export const handleFirebaseToken = async () => {
           localStorage.setItem('fcm_token', fcm_token);
           UserApi.postFcmToken({ pushToken: fcm_token })
             .then((response) => {
-              alert('알림이 설정되었습니다.');
+              console.log('alarm setted');
             })
             .catch((error) => {
               alert('알림 설정 중 에러가 발생했습니다. 다시 시도해 주세요.');
@@ -82,14 +83,14 @@ export const handleFirebaseToken = async () => {
   };
   
 
-  const handleGranted = (setIsLoading) => {
+  export const handleGranted = (setIsLoading) => {
     console.log('알림 권한이 허용됨');
     handleFirebaseToken().catch((error) => console.error(error));
-
     setIsLoading(false);
 };
 
 
+// 처음 실행할 때 알림 권한 설정 요청
 export const requestPermission = async (setIsPushModal, setIsLoading) => {
   setIsLoading(true);
   if (!('Notification' in window)) {
