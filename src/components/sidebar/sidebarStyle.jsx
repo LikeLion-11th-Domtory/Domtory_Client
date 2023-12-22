@@ -9,7 +9,7 @@ export const Sidebar = styled.div`
   z-index: 5;
   padding: 12px;
   border-radius: 15px 0 0 15px;
-  background-color: #e7e4e1;
+  background-color: #efd5b6;
   height: 100%;
   width: 75%;
   right: -80%;
@@ -44,6 +44,7 @@ export const Content = styled.div`
     padding: 20px;
     width: 100%;
     display: flex;
+    align-items: center;
   `
 
 export const ContentIcon = styled(FontAwesomeIcon)`

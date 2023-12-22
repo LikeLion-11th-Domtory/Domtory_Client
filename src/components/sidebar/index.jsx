@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as styles from "./sidebarStyle";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faBook, faTree, faRightFromBracket} from "@fortawesome/free-solid-svg-icons";
+import { faBars, faScrewdriverWrench, faCloudMoon, faBullhorn,faBook} from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -26,9 +26,18 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
     }
   }
 
+  const onClickNightOut = () => {
+    window.open('http://1.246.219.13:8080/cbhs/indexstdds.html?var1=M000004116','_blank');
+  }
 
+  const onClickBooks = () => {
+    window.open('http://www.cbhs2.kr/0000038','_blank');
+  }
 
-      
+  const onClickRequestRepair = () => {
+    window.open('http://1.246.219.13:8080/cbhs/indexstdds.html?var1=M000004115','_blank');
+  }
+
 
   return (
       <>
@@ -36,14 +45,25 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         <styles.SidebarHead>
         <styles.Button icon={faBars} onClick={toggleSide} onKeyDown={toggleSide}/>
         </styles.SidebarHead>
-        <styles.Content>
-          <styles.ContentIcon icon={faTree}/>
-          <styles.ContentLink>이용 방법</styles.ContentLink>
+        <styles.Content onClick = {() => navigate('/notice')}>
+          <styles.ContentIcon icon={faBullhorn}/>
+          <styles.ContentLink>공지사항</styles.ContentLink>
         </styles.Content>
-        <styles.Content style={{paddingBottom: '50px', borderBottom: '1px solid lightgrey'}}>
+        <styles.Content onClick={onClickNightOut}>
+          <styles.ContentIcon icon={faCloudMoon}/>
+          <styles.ContentLink>외박신청</styles.ContentLink>
+        </styles.Content>
+        <styles.Content onClick={onClickRequestRepair}>
+          <styles.ContentIcon icon={faScrewdriverWrench}/>
+          <styles.ContentLink>시설보수요청</styles.ContentLink>
+        </styles.Content>
+        <styles.Content 
+        onClick={onClickBooks}
+        style={{paddingBottom: '50px', borderBottom: '1px solid lightgrey'}}>
           <styles.ContentIcon icon={faBook}/>
-          <styles.ContentLink>이용 약관 및 정책</styles.ContentLink>
+          <styles.ContentLink>도서관 책 검색</styles.ContentLink>
         </styles.Content>
+
       </styles.Sidebar>
       </>
   );

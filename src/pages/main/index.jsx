@@ -17,6 +17,7 @@ import PushInformModal from '../../components/pushInformModal';
 import UserApi from '../../utils/api';
 import LoadingScreen from '../../components/loading';
 import { onMessage } from 'firebase/messaging';
+import Sidebar from '../../components/sidebar';
 
 export default function Main() {
     const navigate = useNavigate();
