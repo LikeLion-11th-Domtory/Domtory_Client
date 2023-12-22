@@ -76,7 +76,7 @@ export const handleFirebaseToken = async () => {
           vapidKey: process.env.REACT_APP_VAPID_KEY,
           registration
         });
-        if (fcm_token) {
+        if (fcm_token && fcm_token === localStorage.getItem(fcm_token)) {
           console.log('updating fcm_token...');
           localStorage.setItem('fcm_token', fcm_token);
           UserApi.postFcmToken({ pushToken: fcm_token })
