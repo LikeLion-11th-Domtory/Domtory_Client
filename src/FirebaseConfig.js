@@ -53,8 +53,20 @@ export const getOrRegisterServiceWorker = () => {
 // getFirebaseToken function generates the FCM token
 export const handleFirebaseToken = async () => {
   try {
+    const isToken = localStorage.getItem('fcm_token');
+    if(isToken){
+      await UserApi.PostDisableFcmToken(isToken)
+      .then((response) => {
+        console.log('existing token deleted');
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+    }
+
     const messagingResolve = await messaging;
     console.log('message resolved');
+    
     // prevent racing problem and call initializeApp -> getMessaging-> getToken in sequences.
     if (messagingResolve) {
       const registration = await getOrRegisterServiceWorker();
@@ -62,9 +74,10 @@ export const handleFirebaseToken = async () => {
       if (registration.active) {
         const fcm_token = await getToken(messagingResolve, {
           vapidKey: process.env.REACT_APP_VAPID_KEY,
-          serviceWorkerRegistration: registration,
+          registration
         });
-        if (fcm_token) {
+        if (fcm_token && fcm_token === localStorage.getItem(fcm_token)) {
+          console.log('updating fcm_token...');
           localStorage.setItem('fcm_token', fcm_token);
           UserApi.postFcmToken({ pushToken: fcm_token })
             .then((response) => {
@@ -85,8 +98,7 @@ export const handleFirebaseToken = async () => {
 
   export const handleGranted = (setIsLoading) => {
     console.log('알림 권한이 허용됨');
-    handleFirebaseToken().catch((error) => console.error(error));
-    setIsLoading(false);
+    handleFirebaseToken(setIsLoading).then(() => setIsLoading(false)).catch((error) => console.error(error));
 };
 
 
@@ -111,3 +123,13 @@ export const requestPermission = async (setIsPushModal, setIsLoading) => {
   }
   handleGranted(setIsLoading);
 };
+
+
+export const reactiveServiceWorker = async () => {
+  const messagingResolve = await messaging;
+    console.log('message resolved');
+    // prevent racing problem and call initializeApp -> getMessaging-> getToken in sequences.
+    if (messagingResolve) {
+      const registration = await getOrRegisterServiceWorker();
+    }
+}
