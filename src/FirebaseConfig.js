@@ -1,7 +1,11 @@
 import { initializeApp } from "firebase/app";
-import {getMessaging, getToken, onMessage, isSupported} from "firebase/messaging";
+import {
+  getMessaging,
+  getToken,
+  onMessage,
+  isSupported,
+} from "firebase/messaging";
 import UserApi from "./utils/api";
-
 
 export const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -10,7 +14,7 @@ export const firebaseConfig = {
   storageBucket: "domtory-c1ec1.appspot.com",
   messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
   appId: process.env.REACT_APP_APP_ID,
-  measurementId: process.env.REACT_APP_MEASUREMENT_ID
+  measurementId: process.env.REACT_APP_MEASUREMENT_ID,
 };
 
 export const app = initializeApp(firebaseConfig);
@@ -32,41 +36,40 @@ export const messaging = getMessaging(app);
 
 // Initialize Firebase
 export const getOrRegisterServiceWorker = () => {
-  console.log(window.navigator.serviceWorker);
+  // console.log(window.navigator.serviceWorker);
   if (
-    'serviceWorker' in navigator &&
-    typeof window.navigator.serviceWorker !== 'undefined'
+    "serviceWorker" in navigator &&
+    typeof window.navigator.serviceWorker !== "undefined"
   ) {
     return window.navigator.serviceWorker
       .getRegistration()
-      .then(serviceWorker => {
+      .then((serviceWorker) => {
         if (serviceWorker) return serviceWorker;
         return window.navigator.serviceWorker.register(
-          '/firebase-messaging-sw.js',
+          "/firebase-messaging-sw.js"
         );
       });
   }
-  throw new Error('The browser doesn`t support service worker.');
+  throw new Error("The browser doesn`t support service worker.");
 };
 
-
 // getFirebaseToken function generates the FCM token
-export const handleFirebaseToken = async () => {
+export const handleFirebaseToken = async (setIsLoading) => {
   try {
-    const isToken = localStorage.getItem('fcm_token');
-    if(isToken){
-      await UserApi.PostDisableFcmToken(isToken)
-      .then((response) => {
-        console.log('existing token deleted');
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-    }
+    const isToken = localStorage.getItem("fcm_token");
+    // if(isToken){
+    //   await UserApi.PostDisableFcmToken(isToken)
+    //   .then((response) => {
+    //     console.log('existing token deleted');
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   })
+    // }
 
     const messagingResolve = await messaging;
-    console.log('message resolved');
-    
+    console.log("message resolved");
+
     // prevent racing problem and call initializeApp -> getMessaging-> getToken in sequences.
     if (messagingResolve) {
       const registration = await getOrRegisterServiceWorker();
@@ -74,62 +77,63 @@ export const handleFirebaseToken = async () => {
       if (registration.active) {
         const fcm_token = await getToken(messagingResolve, {
           vapidKey: process.env.REACT_APP_VAPID_KEY,
-          registration
+          registration,
         });
-        if (fcm_token && fcm_token === localStorage.getItem(fcm_token)) {
-          console.log('updating fcm_token...');
-          localStorage.setItem('fcm_token', fcm_token);
+        if (fcm_token && fcm_token !== isToken) {
+          console.log("updating fcm_token...");
+          localStorage.setItem("fcm_token", fcm_token);
           UserApi.postFcmToken({ pushToken: fcm_token })
             .then((response) => {
-              console.log('alarm setted');
+              alert("알림이 설정되었습니다.");
+              setIsLoading(false);
             })
             .catch((error) => {
-              alert('알림 설정 중 에러가 발생했습니다. 다시 시도해 주세요.');
+              alert("알림 설정 중 에러가 발생했습니다. 다시 시도해 주세요.");
               console.error(error);
             });
-          }
         }
+      } else {
+        window.location.reload();
       }
-    } catch (error) {
-      console.error(error);
     }
-  };
-  
-
-  export const handleGranted = (setIsLoading) => {
-    console.log('알림 권한이 허용됨');
-    handleFirebaseToken(setIsLoading).then(() => setIsLoading(false)).catch((error) => console.error(error));
+  } catch (error) {
+    console.error(error);
+  }
 };
 
+export async function handleGranted(setIsLoading) {
+  console.log("알림 권한이 허용됨");
+  await handleFirebaseToken(setIsLoading).catch((error) =>
+    console.error(error)
+  );
+}
 
 // 처음 실행할 때 알림 권한 설정 요청
 export const requestPermission = async (setIsPushModal, setIsLoading) => {
   setIsLoading(true);
-  if (!('Notification' in window)) {
+  if (!("Notification" in window)) {
     setIsPushModal(true);
     setIsLoading(false);
     // Check if the browser supports notifications
-    console.log('This browser does not support desktop notification');
-  } else if (Notification.permission === 'default') {
-    console.log('권한 요청 중...');
+    console.log("This browser does not support desktop notification");
+  } else if (Notification.permission === "default") {
+    console.log("권한 요청 중...");
     const permission = await Notification.requestPermission();
-    if (permission === 'denied') {
+    if (permission === "denied") {
       alert(`알림 권한을 허용해주세요!`);
       return;
     } else {
-      setIsLoading(false);
       handleGranted(setIsLoading);
     }
   }
-  handleGranted(setIsLoading);
+  // handleGranted(setIsLoading);
 };
-
 
 export const reactiveServiceWorker = async () => {
   const messagingResolve = await messaging;
-    console.log('message resolved');
-    // prevent racing problem and call initializeApp -> getMessaging-> getToken in sequences.
-    if (messagingResolve) {
-      const registration = await getOrRegisterServiceWorker();
-    }
-}
+  console.log("message resolved");
+  // prevent racing problem and call initializeApp -> getMessaging-> getToken in sequences.
+  if (messagingResolve) {
+    const registration = await getOrRegisterServiceWorker();
+  }
+};
