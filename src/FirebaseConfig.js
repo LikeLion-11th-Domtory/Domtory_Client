@@ -71,7 +71,7 @@ export const handleFirebaseToken = async (setIsLoading) => {
     console.log("message resolved");
 
     // prevent racing problem and call initializeApp -> getMessaging-> getToken in sequences.
-    if (messagingResolve) {
+    if (messagingResolve && isToken) {
       const registration = await getOrRegisterServiceWorker();
       console.log(registration);
       if (registration.active) {
@@ -103,7 +103,7 @@ export const handleFirebaseToken = async (setIsLoading) => {
 };
 
 export async function handleGranted(setIsLoading) {
-  console.log("알림 권한이 허용됨");
+  // console.log("알림 권한이 허용됨");
   await handleFirebaseToken(setIsLoading).catch((error) =>
     console.error(error)
   );

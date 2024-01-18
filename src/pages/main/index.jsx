@@ -29,7 +29,7 @@ export default function Main() {
   const [deviceToken, setDeviceToken] = useState({
     token: "",
   });
-  useSetScreenSize();
+
   const [isPushToken, setIsPushToken] = useState(false);
   const [isPushModal, setIspushModal] = useState(false);
   const [noticeList, setNoticeList] = useState([]);
@@ -60,6 +60,7 @@ export default function Main() {
       console.error(error);
     }
   };
+  useSetScreenSize();
 
   const onClickNightOut = () => {
     window.open(
