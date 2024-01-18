@@ -84,7 +84,7 @@ export const handleFirebaseToken = async (setIsLoading) => {
           localStorage.setItem("fcm_token", fcm_token);
           UserApi.postFcmToken({ pushToken: fcm_token })
             .then((response) => {
-              alert("알림이 설정되었습니다.");
+              alert("알림설정이 갱신되었습니다.");
               setIsLoading(false);
               window.location.reload();
             })
